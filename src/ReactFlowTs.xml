@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="mendix.reactflowts.ReactFlowTs" pluginWidget="true" needsEntityContext="true"
+    offlineCapable="true"
+    supportedPlatform="Web"
+    xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>React Flow Ts</name>
+    <description>Implementation of the React Flow library for Mendix</description>
+    <icon />
+    <properties>
+        <propertyGroup caption="Nodes">
+            <property key="nodes" type="datasource" isList="true" required="true">
+                <caption>Nodes list</caption>
+                <description></description>
+            </property>
+            <property key="selectedNode" type="selection" dataSource="nodes">
+                <caption>Selected node</caption>
+                <description />
+                <selectionTypes>
+                    <selectionType name="Single" />
+                </selectionTypes>
+            </property>
+            <property key="nodeId" type="expression" required="true" dataSource="nodes">
+                <caption>Node id</caption>
+                <description></description>
+                <returnType type="String" />
+            </property>
+            <property key="nodeLabel" type="expression" required="true" dataSource="nodes">
+                <caption>Node label</caption>
+                <description></description>
+                <returnType type="String" />
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Edges">
+            <property key="edges" type="datasource" isList="true" required="true">
+                <caption>Edges list</caption>
+                <description></description>
+            </property>
+            <property key="edgeId" type="expression" required="true" dataSource="edges">
+                <caption>Edge id</caption>
+                <description></description>
+                <returnType type="String" />
+            </property>
+            <property key="nodeSourceId" type="expression" required="true" dataSource="edges">
+                <caption>Node source id</caption>
+                <description></description>
+                <returnType type="String" />
+            </property>
+            <property key="nodeTargetId" type="expression" required="true" dataSource="edges">
+                <caption>Node target id</caption>
+                <description></description>
+                <returnType type="String" />
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Events">
+            <property key="onClickNode" type="action" required="false" dataSource="nodes">
+                <caption>On click node</caption>
+                <description></description>
+            </property>
+            <property key="onClickEdge" type="action" required="false" dataSource="edges">
+                <caption>On click edge</caption>
+                <description></description>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Common">
+            <propertyGroup caption="Common">
+                <systemProperty key="Name" />
+                <systemProperty key="TabIndex" />
+            </propertyGroup>
+            <propertyGroup caption="Visibility">
+                <systemProperty key="Visibility" />
+            </propertyGroup>
+            <propertyGroup caption="Editability">
+                <systemProperty key="Editability" />
+            </propertyGroup>
+        </propertyGroup>
+    </properties>
+</widget>
