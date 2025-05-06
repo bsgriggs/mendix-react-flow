@@ -32,9 +32,10 @@ export function preview(props: ReactFlowTsPreviewProps): ReactElement {
                 { id: "1->3", source: "1", target: "3" },
                 { id: "2->3", source: "2", target: "3" }
             ]}
-            //Style
+            // Style
             defaultViewType="ZOOM"
-            defaultZoom={3}
+            defaultZoom={1}
+            navZoom={1}
             // Actions
             onClickNode={clickedNode => console.debug(`clicked node ${clickedNode}`)}
             onClickEdge={clickedEdge => console.debug(`clicked edge ${clickedEdge}`)}

@@ -31,7 +31,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
         if (props.nodes.status === ValueStatus.Available && props.nodes.items) {
             if (props.nodeSort !== undefined) {
                 const sortedList: INodeSort[] = props.nodes.items.map(obj => ({
-                    obj: obj,
+                    obj,
                     sort: Number(props.nodeSort?.get(obj).value)
                 }));
                 return sortedList.sort().map((iNodeSort, index) => mapNodes(iNodeSort.obj, index));
@@ -64,7 +64,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
         }
     }, [props.edges, props.edgeId, props.nodeSourceId, props.nodeTargetId]);
 
-    const handleNodeClick = (clickedNode: Node) => {
+    const handleNodeClick = (clickedNode: Node): void => {
         const clickObj = clickedNode.data?.objItem;
         props.selectedNode.setSelection(clickObj as ObjectItem);
         if (props.onClickNode && clickObj) {
@@ -72,7 +72,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
         }
     };
 
-    const handleEdgeClick = (clickedEdge: Edge) => {
+    const handleEdgeClick = (clickedEdge: Edge): void => {
         const clickObj = clickedEdge.data?.objItem;
         if (props.onClickEdge && clickObj) {
             props.onClickEdge.get(clickObj as ObjectItem).execute();
@@ -82,13 +82,14 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
     if (
         props.nodes.status === ValueStatus.Loading ||
         props.edges.status === ValueStatus.Loading ||
-        props.defaultZoom.status === ValueStatus.Loading
+        props.defaultZoom.status === ValueStatus.Loading ||
+        props.navZoom.status === ValueStatus.Loading
     ) {
         return (
             <div
                 id={props.name}
                 className={classNames("mendix-react-flow", props.class)}
-                //Library requires parent to have a set width & height
+                // Library requires parent to have a set width & height
                 style={{ width: "50vw", height: "75vh", ...props.style }}
             >
                 Loading
@@ -107,9 +108,10 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             nodes={nodes}
             // Edges
             edges={edges}
-            //Styling
+            // Styling
             defaultViewType={props.defaultViewType}
             defaultZoom={Number(props.defaultZoom.value)}
+            navZoom={Number(props.navZoom.value)}
             // Actions
             onClickNode={handleNodeClick}
             onClickEdge={handleEdgeClick}

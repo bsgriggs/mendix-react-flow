@@ -102,7 +102,7 @@ export type PreviewProps =
 
 export function getProperties(
     _values: ReactFlowTsPreviewProps,
-    defaultProperties: Properties /*, target: Platform*/
+    defaultProperties: Properties /* , target: Platform*/
 ): Properties {
     if (_values.defaultViewType === "FULL") {
         hidePropertyIn(defaultProperties, _values, "defaultZoom");

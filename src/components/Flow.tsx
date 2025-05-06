@@ -4,32 +4,37 @@ import "@xyflow/react/dist/style.css";
 import CustomNode from "./CustomNode";
 import { DefaultViewTypeEnum } from "../../typings/ReactFlowTsProps";
 import NavPanel from "./NavPanel";
+import Clamp from "../utils/Clamp";
 
 const nodeTypes = {
     customNode: CustomNode
 };
 
 export interface FlowProps {
-    //System
+    // System
     tabIndex?: number;
 
-    //Nodes
+    // Nodes
     nodes: Node[];
 
-    //Edges
+    // Edges
     edges: Edge[];
 
-    //Styling
+    // Styling
     defaultViewType: DefaultViewTypeEnum;
     defaultZoom: number;
+    navZoom: number;
 
-    //Actions
+    // Actions
     onClickNode: (clickedNode: Node) => void;
     onClickEdge: (clickedEdge: Edge) => void;
 }
 
 const Flow = (props: FlowProps): ReactElement => {
-    const defaultViewport: Viewport = useMemo(() => ({ x: 400, y: 0, zoom: props.defaultZoom }), [props.defaultZoom]);
+    const defaultViewport: Viewport = useMemo(
+        () => ({ x: 400, y: 0, zoom: Clamp(props.defaultZoom, 0.5, 2) }),
+        [props.defaultZoom]
+    );
     const { fitView } = useReactFlow();
     const [focusIndex, setFocusIndex] = useState<number | null>(null);
 
@@ -38,10 +43,16 @@ const Flow = (props: FlowProps): ReactElement => {
             const focusedNode = props.nodes[focusIndex];
             if (focusedNode !== null) {
                 props.onClickNode(focusedNode);
-                fitView({ nodes: [{ id: focusedNode.id }], duration: 500, maxZoom: 1, minZoom: 1 });
+                fitView({
+                    nodes: [{ id: focusedNode.id }],
+                    duration: 500,
+                    maxZoom: Clamp(props.navZoom, 0.5, 2),
+                    minZoom: Clamp(props.navZoom, 0.5, 2)
+                });
             }
         }
-    }, [focusIndex, fitView]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [focusIndex, fitView]); // props.onClickNode cannot be in dependency arrays
 
     return (
         <ReactFlow
@@ -50,7 +61,7 @@ const Flow = (props: FlowProps): ReactElement => {
             nodeTypes={nodeTypes}
             fitView={props.defaultViewType === "FULL"}
             defaultViewport={defaultViewport}
-            elementsSelectable={true}
+            elementsSelectable
             onNodeClick={(_, clickedNode) => setFocusIndex(props.nodes.findIndex(iNode => iNode.id === clickedNode.id))}
             onEdgeClick={(_, clickedEdge) => props.onClickEdge(clickedEdge)}
             panOnScroll

@@ -4,7 +4,14 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { DynamicValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue } from "mendix";
+import {
+    DynamicValue,
+    ListValue,
+    ListActionValue,
+    ListExpressionValue,
+    ListWidgetValue,
+    SelectionSingleValue
+} from "mendix";
 import { Big } from "big.js";
 
 export type DefaultViewTypeEnum = "FULL" | "ZOOM";
@@ -27,6 +34,7 @@ export interface ReactFlowTsContainerProps {
     verticalOffset: ListExpressionValue<Big>;
     defaultViewType: DefaultViewTypeEnum;
     defaultZoom: DynamicValue<Big>;
+    navZoom: DynamicValue<Big>;
     onClickNode?: ListActionValue;
     onClickEdge?: ListActionValue;
 }
@@ -54,6 +62,7 @@ export interface ReactFlowTsPreviewProps {
     verticalOffset: string;
     defaultViewType: DefaultViewTypeEnum;
     defaultZoom: string;
+    navZoom: string;
     onClickNode: {} | null;
     onClickEdge: {} | null;
 }

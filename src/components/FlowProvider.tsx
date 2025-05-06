@@ -6,23 +6,24 @@ import { DefaultViewTypeEnum } from "../../typings/ReactFlowTsProps";
 import Flow from "./Flow";
 
 export interface FlowProviderProps {
-    //System
+    // System
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
 
-    //Nodes
+    // Nodes
     nodes: Node[];
 
-    //Edges
+    // Edges
     edges: Edge[];
 
-    //Styling
+    // Styling
     defaultViewType: DefaultViewTypeEnum;
     defaultZoom: number;
+    navZoom: number;
 
-    //Actions
+    // Actions
     onClickNode: (clickedNode: Node) => void;
     onClickEdge: (clickedEdge: Edge) => void;
 }
@@ -32,7 +33,7 @@ const FlowProvider = (props: FlowProviderProps): ReactElement => {
         <div
             id={props.name}
             className={classNames("mendix-react-flow", props.class)}
-            //Library requires parent to have a set width & height
+            // Library requires parent to have a set width & height
             style={{ width: "50vw", height: "75vh", ...props.style }}
         >
             <ReactFlowProvider>
