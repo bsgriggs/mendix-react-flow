@@ -1,6 +1,30 @@
-/*
-Place your custom CSS here
-*/
-.widget-hello-world {
+.mendix-react-flow .custom-node {
+    padding: 1rem;
+    border: 2px solid grey;
+    border-radius: 1rem;
+    min-width: 30rem;
+}
 
+.mendix-react-flow .custom-node.selected {
+    border: 2px solid black;
+}
+
+.mendix-react-flow .legend {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    background-color: lightgray;
+}
+
+.mendix-react-flow .nav-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.mendix-react-flow path.react-flow__edge-path {
+    stroke-width: 4;
 }

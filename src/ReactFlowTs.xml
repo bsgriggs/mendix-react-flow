@@ -21,12 +21,22 @@
                 </selectionTypes>
             </property>
             <property key="nodeId" type="expression" required="true" dataSource="nodes">
-                <caption>Node id</caption>
+                <caption>Id</caption>
                 <description></description>
                 <returnType type="String" />
             </property>
-            <property key="nodeLabel" type="expression" required="true" dataSource="nodes">
-                <caption>Node label</caption>
+            <property key="nodeContent" type="widgets" required="true" dataSource="nodes">
+                <caption>Node</caption>
+                <description></description>
+            </property>
+            <property key="nodeSort" type="expression" required="false" defaultValue=""
+                dataSource="nodes">
+                <caption>Sort</caption>
+                <description>(Optional) Integer for the browser to sort the nodes ascending. Otherwise, they will be sorted by the order they were created.</description>
+                <returnType type="Integer" />
+            </property>
+            <property key="nodeClassName" type="expression" required="false" dataSource="nodes">
+                <caption>Dynamic class</caption>
                 <description></description>
                 <returnType type="String" />
             </property>
@@ -37,19 +47,42 @@
                 <description></description>
             </property>
             <property key="edgeId" type="expression" required="true" dataSource="edges">
-                <caption>Edge id</caption>
+                <caption>Id</caption>
                 <description></description>
                 <returnType type="String" />
             </property>
             <property key="nodeSourceId" type="expression" required="true" dataSource="edges">
-                <caption>Node source id</caption>
+                <caption>Source node id</caption>
                 <description></description>
                 <returnType type="String" />
             </property>
             <property key="nodeTargetId" type="expression" required="true" dataSource="edges">
-                <caption>Node target id</caption>
+                <caption>Target node id</caption>
                 <description></description>
                 <returnType type="String" />
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Style">
+            <property key="verticalOffset" type="expression" required="true" defaultValue="150"
+                dataSource="nodes">
+                <caption>Vertical offset</caption>
+                <description>Amount of pixels between each node vertically</description>
+                <returnType type="Integer" />
+            </property>
+            <property key="defaultViewType" type="enumeration" defaultValue="FULL">
+                <caption>Default view type</caption>
+                <description>Full - display the entire flow on load
+Zoom - specify a default zoom value (starts at the top of the flow)
+                </description>
+                <enumerationValues>
+                    <enumerationValue key="FULL">Full</enumerationValue>
+                    <enumerationValue key="ZOOM">Zoom</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="defaultZoom" type="expression" required="true" defaultValue="1">
+                <caption>Default zoom</caption>
+                <description>Min 0.5, Max 2</description>
+                <returnType type="Integer" />
             </property>
         </propertyGroup>
         <propertyGroup caption="Events">

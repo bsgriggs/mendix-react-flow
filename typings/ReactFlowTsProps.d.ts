@@ -3,8 +3,11 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
-import { ListValue, ListActionValue, ListExpressionValue, SelectionSingleValue } from "mendix";
+import { ComponentType, CSSProperties, ReactNode } from "react";
+import { DynamicValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue } from "mendix";
+import { Big } from "big.js";
+
+export type DefaultViewTypeEnum = "FULL" | "ZOOM";
 
 export interface ReactFlowTsContainerProps {
     name: string;
@@ -14,11 +17,16 @@ export interface ReactFlowTsContainerProps {
     nodes: ListValue;
     selectedNode: SelectionSingleValue;
     nodeId: ListExpressionValue<string>;
-    nodeLabel: ListExpressionValue<string>;
+    nodeContent: ListWidgetValue;
+    nodeSort?: ListExpressionValue<Big>;
+    nodeClassName?: ListExpressionValue<string>;
     edges: ListValue;
     edgeId: ListExpressionValue<string>;
     nodeSourceId: ListExpressionValue<string>;
     nodeTargetId: ListExpressionValue<string>;
+    verticalOffset: ListExpressionValue<Big>;
+    defaultViewType: DefaultViewTypeEnum;
+    defaultZoom: DynamicValue<Big>;
     onClickNode?: ListActionValue;
     onClickEdge?: ListActionValue;
 }
@@ -36,11 +44,16 @@ export interface ReactFlowTsPreviewProps {
     nodes: {} | { caption: string } | { type: string } | null;
     selectedNode: "Single";
     nodeId: string;
-    nodeLabel: string;
+    nodeContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    nodeSort: string;
+    nodeClassName: string;
     edges: {} | { caption: string } | { type: string } | null;
     edgeId: string;
     nodeSourceId: string;
     nodeTargetId: string;
+    verticalOffset: string;
+    defaultViewType: DefaultViewTypeEnum;
+    defaultZoom: string;
     onClickNode: {} | null;
     onClickEdge: {} | null;
 }
