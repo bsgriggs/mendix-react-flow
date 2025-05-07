@@ -1,5 +1,17 @@
 import { ReactElement, createElement, useMemo, useEffect, useState } from "react";
-import { Controls, MiniMap, Panel, ReactFlow, Edge, Node, Viewport, useReactFlow, Background } from "@xyflow/react";
+import {
+    Controls,
+    MiniMap,
+    Panel,
+    ReactFlow,
+    Edge,
+    Node,
+    Viewport,
+    useReactFlow,
+    Background,
+    useEdgesState,
+    useNodesState
+} from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import CustomNode from "./CustomNode";
 import { DefaultViewTypeEnum } from "../../typings/ReactFlowTsProps";
@@ -31,6 +43,11 @@ export interface FlowProps {
 }
 
 const Flow = (props: FlowProps): ReactElement => {
+    const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+    useEffect(() => setNodes(props.nodes), [props.nodes]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+    useEffect(() => setEdges(props.edges), [props.edges]);
+
     const defaultViewport: Viewport = useMemo(
         () => ({ x: 400, y: 0, zoom: Clamp(props.defaultZoom, 0.5, 2) }),
         [props.defaultZoom]
@@ -56,8 +73,10 @@ const Flow = (props: FlowProps): ReactElement => {
 
     return (
         <ReactFlow
-            nodes={props.nodes}
-            edges={props.edges}
+            nodes={nodes}
+            onNodesChange={onNodesChange}
+            edges={edges}
+            onEdgesChange={onEdgesChange}
             nodeTypes={nodeTypes}
             fitView={props.defaultViewType === "FULL"}
             defaultViewport={defaultViewport}

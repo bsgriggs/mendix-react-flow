@@ -61,12 +61,30 @@
                 <description></description>
                 <returnType type="String" />
             </property>
+            <property key="edgeDirection" type="expression" required="true" dataSource="edges"
+                defaultValue="'Down'">
+                <caption>Line type</caption>
+                <description>'Up', 'Up_Right', 'Right', 'Down_Right', 'Down', 'Down_Left', 'Left', 'Up_Left'</description>
+                <returnType type="String" />
+            </property>
+            <property key="lineType" type="expression" required="true" dataSource="edges"
+                defaultValue="'Solid'">
+                <caption>Line type</caption>
+                <description>'Solid', 'Dotted'</description>
+                <returnType type="String" />
+            </property>
         </propertyGroup>
         <propertyGroup caption="Style">
             <property key="verticalOffset" type="expression" required="true" defaultValue="150"
                 dataSource="nodes">
                 <caption>Vertical offset</caption>
                 <description>Amount of pixels between each node vertically</description>
+                <returnType type="Integer" />
+            </property>
+            <property key="horizontalOffset" type="expression" required="true" defaultValue="400"
+                dataSource="nodes">
+                <caption>Horizontal offset</caption>
+                <description>Amount of pixels between each node horizontally</description>
                 <returnType type="Integer" />
             </property>
             <property key="defaultViewType" type="enumeration" defaultValue="FULL">

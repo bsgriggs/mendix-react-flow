@@ -11,7 +11,6 @@ export interface CustomNodeProps {
 }
 
 export default memo((props: CustomNodeProps): ReactElement => {
-    console.info("handle props", props);
     return (
         <div className={classNames("custom-node", { selected: props.selected }, { nodrag: !props.draggable })}>
             <Handle type="target" position={Position.Top} isConnectable={false} draggable={false} />

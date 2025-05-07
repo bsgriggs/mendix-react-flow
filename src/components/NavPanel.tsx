@@ -9,7 +9,6 @@ export interface NavPanelProps {
 }
 
 const NavPanel = (props: NavPanelProps): ReactElement => {
-    console.info("NavPanelProps", props);
     return (
         <Panel position="center-left">
             <div className="nav-panel">
