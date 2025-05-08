@@ -2,7 +2,6 @@ import { ReactElement, createElement, useMemo, useEffect, useCallback, useState 
 import {
     Controls,
     MiniMap,
-    Panel,
     ReactFlow,
     Edge,
     Node,
@@ -17,7 +16,6 @@ import "@xyflow/react/dist/style.css";
 import CustomNode from "./CustomNode";
 import { DefaultViewTypeEnum } from "../../typings/ReactFlowTsProps";
 import Clamp from "../utils/Clamp";
-import MxIcon from "./mxIcon";
 
 const nodeTypes = {
     customNode: CustomNode
@@ -48,7 +46,8 @@ const Flow = (props: FlowProps): ReactElement => {
     const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
     useEffect(() => setEdges(props.edges), [props.edges, setEdges]);
-    const [retryFocus, setRetryFocus] = useState<boolean>(false);
+    const [retryAttempts, setRetryAttempts] = useState<number>(0);
+    const [focusOverride, setFocusOverride] = useState<string>("");
 
     const store = useStoreApi();
     const { resetSelectedElements, addSelectedNodes } = store.getState();
@@ -81,17 +80,25 @@ const Flow = (props: FlowProps): ReactElement => {
     ); // props.onClickNode cannot be in dependency arrays, infinite loop
 
     useEffect(() => {
-        setTimeout(() => {
-            if (props.nodeFocusOverride) {
-                const success = focusNode(props.nodeFocusOverride);
-                if (!success) {
-                    setRetryFocus(!retryFocus);
-                }
-            }
-        }, 500);
+        setRetryAttempts(0);
+    }, [props.nodeFocusOverride, setRetryAttempts]);
 
+    useEffect(() => {
+        if (props.nodeFocusOverride !== focusOverride && retryAttempts < 30) {
+            setTimeout(() => {
+                if (props.nodeFocusOverride) {
+                    const success = focusNode(props.nodeFocusOverride);
+                    if (!success) {
+                        setRetryAttempts(retryAttempts + 1); // keep retrying until success
+                    } else {
+                        setRetryAttempts(0);
+                        setFocusOverride(props.nodeFocusOverride);
+                    }
+                }
+            }, 100);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.nodeFocusOverride, retryFocus, setRetryFocus]);
+    }, [props.nodeFocusOverride, retryAttempts, setRetryAttempts, focusOverride, setFocusOverride]);
     // focusNode cannot be in dependency arrays, infinite loop
 
     useEffect(() => {
@@ -116,32 +123,7 @@ const Flow = (props: FlowProps): ReactElement => {
             onEdgeClick={(_, clickedEdge) => props.onClickEdge(clickedEdge)}
             panOnScroll
         >
-            <Panel position="center-left">
-                <div className="nav-panel">
-                    <button
-                        className="btn mx-button"
-                        title="Navigate to Top"
-                        onClick={() => focusNode(props.nodes[0].id)}
-                    >
-                        <MxIcon className="mx-icon-lined mx-icon-arrow-up" isGlyph={false} />
-                    </button>
-                    <button
-                        className="btn mx-button"
-                        title="Navigate to Bottom"
-                        onClick={() => focusNode(props.nodes[props.nodes.length - 1].id)}
-                    >
-                        <MxIcon className="mx-icon-lined mx-icon-arrow-down" isGlyph={false} />
-                    </button>
-                </div>
-            </Panel>
             <Controls />
-            <Panel position="bottom-center">
-                <div className="legend">
-                    <div>Relation</div>
-                    <div>Links</div>
-                    <div>Quality Violation</div>
-                </div>
-            </Panel>
             <MiniMap zoomable pannable nodeStrokeWidth={5} />
             <Background />
         </ReactFlow>
