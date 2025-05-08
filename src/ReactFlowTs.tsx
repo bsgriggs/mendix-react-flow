@@ -27,14 +27,15 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                             },
                             data: {
                                 objItem: edgeObj
-                            }
+                            },
+                            className: props.edgeClassName?.get(edgeObj).value
                         } as Edge)
                 )
             );
         } else {
             setEdges([]);
         }
-    }, [props.edges, props.edgeId, props.nodeSourceId, props.nodeTargetId, props.lineType]);
+    }, [props.edges, props.edgeId, props.nodeSourceId, props.nodeTargetId, props.lineType, props.edgeClassName]);
 
     const mapNode = useCallback(
         (nodeObj: ObjectItem): Node =>
@@ -93,7 +94,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                 // Library requires parent to have a set width & height
                 style={{ width: props.containerWidth.value, height: props.containerWidth.value, ...props.style }}
             >
-                Loading
+                {props.loadingContent}
             </div>
         );
     }
@@ -107,6 +108,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             tabIndex={props.tabIndex}
             // Nodes
             nodes={nodes}
+            nodeFocusOverride={props.nodeFocusOverride?.value}
             // Edges
             edges={edges}
             // Styling

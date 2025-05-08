@@ -1,4 +1,4 @@
-import { ReactElement, createElement, useMemo, useEffect, useCallback } from "react";
+import { ReactElement, createElement, useMemo, useEffect, useCallback, useState } from "react";
 import {
     Controls,
     MiniMap,
@@ -29,6 +29,7 @@ export interface FlowProps {
 
     // Nodes
     nodes: Node[];
+    nodeFocusOverride: string | undefined;
 
     // Edges
     edges: Edge[];
@@ -46,7 +47,8 @@ export interface FlowProps {
 const Flow = (props: FlowProps): ReactElement => {
     const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
-    useEffect(() => setEdges(props.edges), [props.edges]);
+    useEffect(() => setEdges(props.edges), [props.edges, setEdges]);
+    const [retryFocus, setRetryFocus] = useState<boolean>(false);
 
     const store = useStoreApi();
     const { resetSelectedElements, addSelectedNodes } = store.getState();
@@ -58,7 +60,7 @@ const Flow = (props: FlowProps): ReactElement => {
     const { fitView } = useReactFlow();
 
     const focusNode = useCallback(
-        (nodeId: string) => {
+        (nodeId: string): boolean => {
             const focusedNode = props.nodes.find(node => node.id === nodeId);
             if (focusedNode) {
                 resetSelectedElements();
@@ -70,11 +72,27 @@ const Flow = (props: FlowProps): ReactElement => {
                     maxZoom: Clamp(props.navZoom, 0.5, 2),
                     minZoom: Clamp(props.navZoom, 0.5, 2)
                 });
+                return true;
             }
-            // eslint-disable-next-line react-hooks/exhaustive-deps
+            return false;
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [fitView, props.nodes, Clamp, resetSelectedElements, addSelectedNodes]
-    ); // props.onClickNode cannot be in dependency arrays
+    ); // props.onClickNode cannot be in dependency arrays, infinite loop
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (props.nodeFocusOverride) {
+                const success = focusNode(props.nodeFocusOverride);
+                if (!success) {
+                    setRetryFocus(!retryFocus);
+                }
+            }
+        }, 500);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.nodeFocusOverride, retryFocus, setRetryFocus]);
+    // focusNode cannot be in dependency arrays, infinite loop
 
     useEffect(() => {
         const customFunctionedNodes = props.nodes.map(node => {
@@ -82,7 +100,7 @@ const Flow = (props: FlowProps): ReactElement => {
             return node;
         });
         setNodes(customFunctionedNodes);
-    }, [props.nodes, focusNode]);
+    }, [props.nodes, focusNode, setNodes]);
 
     return (
         <ReactFlow
@@ -100,10 +118,15 @@ const Flow = (props: FlowProps): ReactElement => {
         >
             <Panel position="center-left">
                 <div className="nav-panel">
-                    <button title="Navigate to Top" onClick={() => focusNode(props.nodes[0].id)}>
+                    <button
+                        className="btn mx-button"
+                        title="Navigate to Top"
+                        onClick={() => focusNode(props.nodes[0].id)}
+                    >
                         <MxIcon className="mx-icon-lined mx-icon-arrow-up" isGlyph={false} />
                     </button>
                     <button
+                        className="btn mx-button"
                         title="Navigate to Bottom"
                         onClick={() => focusNode(props.nodes[props.nodes.length - 1].id)}
                     >

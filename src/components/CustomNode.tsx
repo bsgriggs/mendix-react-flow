@@ -36,7 +36,12 @@ export default memo((props: CustomNodeProps): ReactElement => {
 
             <div className="target-btns">
                 {nodesTargetingThis.map(nodeId => (
-                    <button title="Navigate Up" onClick={event => handleClickNav(event, nodeId)}>
+                    <button
+                        key={nodeId}
+                        className="btn mx-button"
+                        title="Navigate Up"
+                        onClick={event => handleClickNav(event, nodeId)}
+                    >
                         <MxIcon className="mx-icon-lined mx-icon-chevron-up" isGlyph={false} />
                     </button>
                 ))}
@@ -44,7 +49,12 @@ export default memo((props: CustomNodeProps): ReactElement => {
             <div className="node-content">{props.data.children}</div>
             <div className="source-btns">
                 {nodesSourcingThis.map(nodeId => (
-                    <button title="Navigate Down" onClick={event => handleClickNav(event, nodeId)}>
+                    <button
+                        key={nodeId}
+                        className="btn mx-button"
+                        title="Navigate Down"
+                        onClick={event => handleClickNav(event, nodeId)}
+                    >
                         <MxIcon className="mx-icon-lined mx-icon-chevron-down" isGlyph={false} />
                     </button>
                 ))}

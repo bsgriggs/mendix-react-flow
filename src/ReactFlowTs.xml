@@ -49,6 +49,11 @@
                     <description></description>
                     <returnType type="String" />
                 </property>
+                <property key="nodeFocusOverride" type="expression" required="false">
+                    <caption>Focus override</caption>
+                    <description>Set as the ID of a node to focus that node</description>
+                    <returnType type="String" />
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Edges">
@@ -74,6 +79,11 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Style">
+                <property key="edgeClassName" type="expression" required="false" dataSource="edges">
+                    <caption>Dynamic class</caption>
+                    <description></description>
+                    <returnType type="String" />
+                </property>
                 <property key="lineType" type="expression" required="true" dataSource="edges"
                     defaultValue="'Solid'">
                     <caption>Line type</caption>
@@ -95,6 +105,10 @@
                     <caption>Height</caption>
                     <description>String of a CSS Height</description>
                     <returnType type="String" />
+                </property>
+                <property key="loadingContent" type="widgets" required="true">
+                    <caption>Loading content</caption>
+                    <description>Content shown while the widget is loading</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Zoom">
