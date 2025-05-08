@@ -39,7 +39,7 @@ export default memo((props: CustomNodeProps): ReactElement => {
                 }
             });
         return newNodes;
-    }, [edges, props.id]);
+    }, [edges, nodes, props.id]);
     const nodesSourcingThis: Node[] = useMemo(() => {
         const newNodes: Node[] = [];
         edges
@@ -51,7 +51,7 @@ export default memo((props: CustomNodeProps): ReactElement => {
                 }
             });
         return newNodes;
-    }, [edges, props.id]);
+    }, [edges, nodes, props.id]);
 
     const handleClickNav = (event: MouseEvent<HTMLButtonElement>, nodeId: string): void => {
         event.stopPropagation(); // prevent clicking the button from selecting THIS node
@@ -69,7 +69,7 @@ export default memo((props: CustomNodeProps): ReactElement => {
                     <button
                         key={node.id}
                         className="btn mx-button"
-                        title="Navigate Up"
+                        title={`Navigate to ${props.data.label}`}
                         onClick={event => handleClickNav(event, node.id)}
                     >
                         <MxIcon
@@ -88,7 +88,7 @@ export default memo((props: CustomNodeProps): ReactElement => {
                     <button
                         key={node.id}
                         className="btn mx-button"
-                        title="Navigate Down"
+                        title={`Navigate to ${props.data.label}`}
                         onClick={event => handleClickNav(event, node.id)}
                     >
                         <MxIcon

@@ -26,6 +26,11 @@
                     <description></description>
                     <returnType type="String" />
                 </property>
+                <property key="nodeLabel" type="expression" required="true" dataSource="nodes">
+                    <caption>Label</caption>
+                    <description>User friendly description of this node. Used to describe where the navigation buttons will go.</description>
+                    <returnType type="String" />
+                </property>
                 <property key="nodeContent" type="widgets" required="true" dataSource="nodes">
                     <caption>Node</caption>
                     <description></description>
@@ -65,6 +70,11 @@
                 <property key="edgeId" type="expression" required="true" dataSource="edges">
                     <caption>Id</caption>
                     <description></description>
+                    <returnType type="String" />
+                </property>
+                <property key="edgeLabel" type="expression" required="false" dataSource="nodes">
+                    <caption>Label</caption>
+                    <description>User friendly description of this edge</description>
                     <returnType type="String" />
                 </property>
                 <property key="nodeSourceId" type="expression" required="true" dataSource="edges">

@@ -124,7 +124,7 @@ const Flow = (props: FlowProps): ReactElement => {
             panOnScroll
         >
             <Controls />
-            <MiniMap zoomable pannable nodeStrokeWidth={5} />
+            <MiniMap zoomable pannable nodeStrokeWidth={5} nodeClassName={node => node.className || ""} />
             <Background />
         </ReactFlow>
     );
