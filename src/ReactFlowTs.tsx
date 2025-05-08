@@ -91,15 +91,12 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                 id={props.name}
                 className={classNames("mendix-react-flow", props.class)}
                 // Library requires parent to have a set width & height
-                style={{ width: "50vw", height: "75vh", ...props.style }}
+                style={{ width: props.containerWidth.value, height: props.containerWidth.value, ...props.style }}
             >
                 Loading
             </div>
         );
     }
-
-    // console.info("edges state", edges);
-    // console.info("nodes state", nodes);
 
     return (
         <FlowProvider
@@ -113,6 +110,8 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             // Edges
             edges={edges}
             // Styling
+            containerWidth={props.containerWidth.value as string}
+            containerHeight={props.containerHeight.value as string}
             defaultViewType={props.defaultViewType}
             defaultZoom={Number(props.defaultZoom.value)}
             navZoom={Number(props.navZoom.value)}

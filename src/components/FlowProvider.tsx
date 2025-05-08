@@ -19,6 +19,8 @@ export interface FlowProviderProps {
     edges: Edge[];
 
     // Styling
+    containerWidth: string;
+    containerHeight: string;
     defaultViewType: DefaultViewTypeEnum;
     defaultZoom: number;
     navZoom: number;
@@ -34,11 +36,10 @@ const FlowProvider = (props: FlowProviderProps): ReactElement => {
             id={props.name}
             className={classNames("mendix-react-flow", props.class)}
             // Library requires parent to have a set width & height
-            style={{ width: "50vw", height: "75vh", ...props.style }}
+            style={{ width: props.containerWidth, height: props.containerHeight, ...props.style }}
         >
             <ReactFlowProvider>
                 <Flow {...props} />
-                {/* <Sidebar /> */}
             </ReactFlowProvider>
         </div>
     );

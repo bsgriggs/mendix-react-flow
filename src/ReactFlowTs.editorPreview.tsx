@@ -1,12 +1,12 @@
 import { ReactElement, createElement } from "react";
-import ReactFlowComp from "./components/FlowProvider";
+import FlowProvider from "./components/FlowProvider";
 import { ReactFlowTsPreviewProps } from "../typings/ReactFlowTsProps";
 
 export function preview(props: ReactFlowTsPreviewProps): ReactElement {
     const nodeRenderer = props.nodeContent.renderer;
 
     return (
-        <ReactFlowComp
+        <FlowProvider
             // System
             name={"preview"}
             class={props.class}
@@ -33,6 +33,8 @@ export function preview(props: ReactFlowTsPreviewProps): ReactElement {
                 { id: "2->3", source: "2", target: "3" }
             ]}
             // Style
+            containerWidth="100%"
+            containerHeight="75vh"
             defaultViewType="ZOOM"
             defaultZoom={1}
             navZoom={1}

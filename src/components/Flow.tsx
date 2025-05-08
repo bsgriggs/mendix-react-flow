@@ -61,7 +61,6 @@ const Flow = (props: FlowProps): ReactElement => {
         (nodeId: string) => {
             const focusedNode = props.nodes.find(node => node.id === nodeId);
             if (focusedNode) {
-                console.info(`Attempting to focus node`, focusedNode);
                 resetSelectedElements();
                 addSelectedNodes([focusedNode.id]);
                 props.onClickNode(focusedNode);

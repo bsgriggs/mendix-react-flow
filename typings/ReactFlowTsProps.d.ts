@@ -26,6 +26,8 @@ export interface ReactFlowTsContainerProps {
     nodeSourceId: ListExpressionValue<string>;
     nodeTargetId: ListExpressionValue<string>;
     lineType: ListExpressionValue<string>;
+    containerWidth: DynamicValue<string>;
+    containerHeight: DynamicValue<string>;
     defaultViewType: DefaultViewTypeEnum;
     defaultZoom: DynamicValue<Big>;
     navZoom: DynamicValue<Big>;
@@ -55,6 +57,8 @@ export interface ReactFlowTsPreviewProps {
     nodeSourceId: string;
     nodeTargetId: string;
     lineType: string;
+    containerWidth: string;
+    containerHeight: string;
     defaultViewType: DefaultViewTypeEnum;
     defaultZoom: string;
     navZoom: string;

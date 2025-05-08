@@ -83,26 +83,43 @@
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="General Style">
-            <property key="defaultViewType" type="enumeration" defaultValue="FULL">
-                <caption>Default view type</caption>
-                <description>Full - display the entire flow on load
-Zoom - specify a default zoom value (starts at the top of the flow)
-                </description>
-                <enumerationValues>
-                    <enumerationValue key="FULL">Full</enumerationValue>
-                    <enumerationValue key="ZOOM">Zoom</enumerationValue>
-                </enumerationValues>
-            </property>
-            <property key="defaultZoom" type="expression" required="true" defaultValue="1">
-                <caption>Default zoom</caption>
-                <description>Min 0.5, Max 2</description>
-                <returnType type="Decimal" />
-            </property>
-            <property key="navZoom" type="expression" required="true" defaultValue="0.9">
-                <caption>Navigation zoom</caption>
-                <description>Zoom when using the nav buttons. Min 0.5, Max 2.</description>
-                <returnType type="Decimal" />
-            </property>
+            <propertyGroup caption="Container Size">
+                <property key="containerWidth" type="expression" required="true"
+                    defaultValue="'100%'">
+                    <caption>Width</caption>
+                    <description>String of a CSS Width</description>
+                    <returnType type="String" />
+                </property>
+                <property key="containerHeight" type="expression" required="true"
+                    defaultValue="'75vh'">
+                    <caption>Height</caption>
+                    <description>String of a CSS Height</description>
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Zoom">
+                <property key="defaultViewType" type="enumeration" defaultValue="FULL">
+                    <caption>Default view type</caption>
+                    <description>Full - display the entire flow on load
+    Zoom - specify a default zoom value (starts at the top of the flow)
+                    </description>
+                    <enumerationValues>
+                        <enumerationValue key="FULL">Full</enumerationValue>
+                        <enumerationValue key="ZOOM">Zoom</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="defaultZoom" type="expression" required="true" defaultValue="1">
+                    <caption>Default zoom</caption>
+                    <description>Min 0.5, Max 2</description>
+                    <returnType type="Decimal" />
+                </property>
+                <property key="navZoom" type="expression" required="true" defaultValue="0.9">
+                    <caption>Navigation zoom</caption>
+                    <description>Zoom when using the nav buttons. Min 0.5, Max 2.</description>
+                    <returnType type="Decimal" />
+                </property>
+            </propertyGroup>
+
         </propertyGroup>
         <propertyGroup caption="Events">
             <property key="onClickNode" type="action" required="false" dataSource="nodes">
