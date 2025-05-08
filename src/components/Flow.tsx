@@ -1,4 +1,4 @@
-import { ReactElement, createElement, useMemo, useEffect, useState } from "react";
+import { ReactElement, createElement, useMemo, useEffect, useCallback } from "react";
 import {
     Controls,
     MiniMap,
@@ -10,13 +10,14 @@ import {
     useReactFlow,
     Background,
     useEdgesState,
-    useNodesState
+    useNodesState,
+    useStoreApi
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import CustomNode from "./CustomNode";
 import { DefaultViewTypeEnum } from "../../typings/ReactFlowTsProps";
-import NavPanel from "./NavPanel";
 import Clamp from "../utils/Clamp";
+import MxIcon from "./mxIcon";
 
 const nodeTypes = {
     customNode: CustomNode
@@ -44,21 +45,25 @@ export interface FlowProps {
 
 const Flow = (props: FlowProps): ReactElement => {
     const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
-    useEffect(() => setNodes(props.nodes), [props.nodes]);
     const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
     useEffect(() => setEdges(props.edges), [props.edges]);
+
+    const store = useStoreApi();
+    const { resetSelectedElements, addSelectedNodes } = store.getState();
 
     const defaultViewport: Viewport = useMemo(
         () => ({ x: 400, y: 0, zoom: Clamp(props.defaultZoom, 0.5, 2) }),
         [props.defaultZoom]
     );
     const { fitView } = useReactFlow();
-    const [focusIndex, setFocusIndex] = useState<number | null>(null);
 
-    useEffect(() => {
-        if (focusIndex !== null) {
-            const focusedNode = props.nodes[focusIndex];
-            if (focusedNode !== null) {
+    const focusNode = useCallback(
+        (nodeId: string) => {
+            const focusedNode = props.nodes.find(node => node.id === nodeId);
+            if (focusedNode) {
+                console.info(`Attempting to focus node`, focusedNode);
+                resetSelectedElements();
+                addSelectedNodes([focusedNode.id]);
                 props.onClickNode(focusedNode);
                 fitView({
                     nodes: [{ id: focusedNode.id }],
@@ -67,9 +72,18 @@ const Flow = (props: FlowProps): ReactElement => {
                     minZoom: Clamp(props.navZoom, 0.5, 2)
                 });
             }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [focusIndex, fitView]); // props.onClickNode cannot be in dependency arrays
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        },
+        [fitView, props.nodes, Clamp, resetSelectedElements, addSelectedNodes]
+    ); // props.onClickNode cannot be in dependency arrays
+
+    useEffect(() => {
+        const customFunctionedNodes = props.nodes.map(node => {
+            node.data.focusNode = focusNode;
+            return node;
+        });
+        setNodes(customFunctionedNodes);
+    }, [props.nodes, focusNode]);
 
     return (
         <ReactFlow
@@ -81,11 +95,23 @@ const Flow = (props: FlowProps): ReactElement => {
             fitView={props.defaultViewType === "FULL"}
             defaultViewport={defaultViewport}
             elementsSelectable
-            onNodeClick={(_, clickedNode) => setFocusIndex(props.nodes.findIndex(iNode => iNode.id === clickedNode.id))}
+            onNodeClick={(_, clickedNode) => focusNode(clickedNode.id)}
             onEdgeClick={(_, clickedEdge) => props.onClickEdge(clickedEdge)}
             panOnScroll
         >
-            <NavPanel focusIndex={focusIndex} setFocusIndex={setFocusIndex} nodesCount={props.nodes.length}></NavPanel>
+            <Panel position="center-left">
+                <div className="nav-panel">
+                    <button title="Navigate to Top" onClick={() => focusNode(props.nodes[0].id)}>
+                        <MxIcon className="mx-icon-lined mx-icon-arrow-up" isGlyph={false} />
+                    </button>
+                    <button
+                        title="Navigate to Bottom"
+                        onClick={() => focusNode(props.nodes[props.nodes.length - 1].id)}
+                    >
+                        <MxIcon className="mx-icon-lined mx-icon-arrow-down" isGlyph={false} />
+                    </button>
+                </div>
+            </Panel>
             <Controls />
             <Panel position="bottom-center">
                 <div className="legend">

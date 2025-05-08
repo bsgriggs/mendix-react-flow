@@ -6,8 +6,6 @@ import { ReactFlowTsContainerProps } from "../typings/ReactFlowTsProps";
 
 import "./ui/ReactFlowTs.css";
 import classNames from "classnames";
-import CalcNodePosition from "./utils/CalcNodePosition";
-import { mapDirection } from "typings/Directions";
 
 export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
     const [edges, setEdges] = useState<Edge[]>([]);
@@ -28,8 +26,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                                 type: MarkerType.Arrow
                             },
                             data: {
-                                objItem: edgeObj,
-                                direction: mapDirection(props.edgeDirection.get(edgeObj).value as string)
+                                objItem: edgeObj
                             }
                         } as Edge)
                 )
@@ -40,111 +37,30 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
     }, [props.edges, props.edgeId, props.nodeSourceId, props.nodeTargetId, props.lineType]);
 
     const mapNode = useCallback(
-        (nodeObj: ObjectItem, index: number): Node =>
+        (nodeObj: ObjectItem): Node =>
             ({
                 id: props.nodeId.get(nodeObj).value,
                 type: "customNode",
-                position: { x: 0, y: 0 },
+                position: {
+                    x: Number(props.nodePosX.get(nodeObj).value) || 0,
+                    y: Number(props.nodePosY.get(nodeObj).value) || 0
+                },
                 selected: props.selectedNode.selection === nodeObj,
                 deletable: false,
                 draggable: true,
                 className: props.nodeClassName?.get(nodeObj).value,
                 data: {
                     objItem: nodeObj,
-                    children: props.nodeContent.get(nodeObj),
-                    hOffset: Number(props.horizontalOffset.get(nodeObj).value),
-                    vOffset: Number(props.verticalOffset.get(nodeObj).value),
-                    sort: props.nodeSort ? props.nodeSort.get(nodeObj).value : index
+                    children: props.nodeContent.get(nodeObj)
                 }
             } as Node),
-        [
-            props.selectedNode,
-            props.nodeId,
-            props.nodeClassName,
-            props.nodeContent,
-            props.nodeSort,
-            props.horizontalOffset,
-            props.verticalOffset
-        ]
+        [props.selectedNode, props.nodeId, props.nodeClassName, props.nodeContent, props.nodePosX, props.nodePosY]
     );
 
     useEffect(() => {
         const newNodes: Node[] = [];
         if (props.nodes.status === ValueStatus.Available && props.nodes.items) {
-            newNodes.push(
-                ...props.nodes.items.map(mapNode).sort((a, b) => (a.data.sort as number) - (b.data.sort as number))
-            );
-            const remainingEdges: Edge[] = Array.from(edges);
-            function moveNextNodes(node: Node, recurse: boolean, animated: boolean | undefined): void {
-                // recursive function to nav through forward nodes
-                const sourceEdges = edges.filter(
-                    edge => edge.source === node.id && (animated === undefined || edge.animated === animated)
-                ); // Edges where this node is the source
-                sourceEdges.forEach(edge => {
-                    const targetNode = newNodes.find(targetNode => targetNode.id === edge.target);
-                    if (targetNode) {
-                        targetNode.position = CalcNodePosition(
-                            node,
-                            edge,
-                            Number(targetNode.data.hOffset),
-                            Number(targetNode.data.vOffset)
-                        );
-                        const edgeIndex = remainingEdges.findIndex(fEdge => fEdge.id === edge.id);
-                        if (edgeIndex > -1) {
-                            remainingEdges.splice(edgeIndex, 1);
-                        }
-                        if (recurse) {
-                            moveNextNodes(targetNode, recurse, animated);
-                        }
-                    }
-                });
-            }
-
-            function movePrevNodes(node: Node, recurse: boolean, animated: boolean | undefined): void {
-                // recursive function to nav through previous nodes
-                const targetEdges = edges.filter(
-                    edge => edge.target === node.id && (animated === undefined || edge.animated === animated)
-                ); // Edges where this node is the target
-                targetEdges.forEach(edge => {
-                    const sourceNode = newNodes.find(targetNode => targetNode.id === edge.source);
-                    if (sourceNode) {
-                        sourceNode.position = CalcNodePosition(
-                            node,
-                            edge,
-                            Number(sourceNode.data.hOffset),
-                            Number(sourceNode.data.vOffset),
-                            true
-                        );
-                        console.info("node adjusted by target", {
-                            node,
-                            edge,
-                            sourceNode,
-                            newPos: sourceNode.position
-                        });
-                        if (recurse) {
-                            movePrevNodes(sourceNode, recurse, animated);
-                        }
-                    } else {
-                        console.info("no prev node found", { node, edge });
-                    }
-                });
-            }
-            //Post processing
-            newNodes.forEach(node => {
-                moveNextNodes(node, false, false);
-            });
-            console.info("remainingEdges", remainingEdges);
-            remainingEdges.forEach(edge => {
-                const prevNodes = newNodes.filter(iNode => iNode.id === edge.source);
-                if (prevNodes) {
-                    prevNodes.forEach(prevNode => {
-                        movePrevNodes(prevNode, false, true);
-                        moveNextNodes(prevNode, false, true);
-                        movePrevNodes(prevNode, true, false);
-                        moveNextNodes(prevNode, true, false);
-                    });
-                }
-            });
+            newNodes.push(...props.nodes.items.map(mapNode));
         }
         setNodes(newNodes);
     }, [edges, props.nodes, mapNode]);

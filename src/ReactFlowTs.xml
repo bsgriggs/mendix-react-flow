@@ -9,84 +9,80 @@
     <icon />
     <properties>
         <propertyGroup caption="Nodes">
-            <property key="nodes" type="datasource" isList="true" required="true">
-                <caption>Nodes list</caption>
-                <description></description>
-            </property>
-            <property key="selectedNode" type="selection" dataSource="nodes">
-                <caption>Selected node</caption>
-                <description />
-                <selectionTypes>
-                    <selectionType name="Single" />
-                </selectionTypes>
-            </property>
-            <property key="nodeId" type="expression" required="true" dataSource="nodes">
-                <caption>Id</caption>
-                <description></description>
-                <returnType type="String" />
-            </property>
-            <property key="nodeContent" type="widgets" required="true" dataSource="nodes">
-                <caption>Node</caption>
-                <description></description>
-            </property>
-            <property key="nodeSort" type="expression" required="false" defaultValue=""
-                dataSource="nodes">
-                <caption>Sort</caption>
-                <description>(Optional) Integer for the browser to sort the nodes ascending. Otherwise, they will be sorted by the order they were created.</description>
-                <returnType type="Integer" />
-            </property>
-            <property key="nodeClassName" type="expression" required="false" dataSource="nodes">
-                <caption>Dynamic class</caption>
-                <description></description>
-                <returnType type="String" />
-            </property>
+            <propertyGroup caption="Data">
+                <property key="nodes" type="datasource" isList="true" required="true">
+                    <caption>Nodes list</caption>
+                    <description></description>
+                </property>
+                <property key="selectedNode" type="selection" dataSource="nodes">
+                    <caption>Selected node</caption>
+                    <description />
+                    <selectionTypes>
+                        <selectionType name="Single" />
+                    </selectionTypes>
+                </property>
+                <property key="nodeId" type="expression" required="true" dataSource="nodes">
+                    <caption>Id</caption>
+                    <description></description>
+                    <returnType type="String" />
+                </property>
+                <property key="nodeContent" type="widgets" required="true" dataSource="nodes">
+                    <caption>Node</caption>
+                    <description></description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Position">
+                <property key="nodePosX" type="expression" required="true" dataSource="nodes">
+                    <caption>X position</caption>
+                    <description>Initial x position of the node (from left side)</description>
+                    <returnType type="Integer" />
+                </property>
+                <property key="nodePosY" type="expression" required="true" dataSource="nodes">
+                    <caption>Y position</caption>
+                    <description>Initial y position of the node (from top side)</description>
+                    <returnType type="Integer" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Style">
+                <property key="nodeClassName" type="expression" required="false" dataSource="nodes">
+                    <caption>Dynamic class</caption>
+                    <description></description>
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Edges">
-            <property key="edges" type="datasource" isList="true" required="true">
-                <caption>Edges list</caption>
-                <description></description>
-            </property>
-            <property key="edgeId" type="expression" required="true" dataSource="edges">
-                <caption>Id</caption>
-                <description></description>
-                <returnType type="String" />
-            </property>
-            <property key="nodeSourceId" type="expression" required="true" dataSource="edges">
-                <caption>Source node id</caption>
-                <description></description>
-                <returnType type="String" />
-            </property>
-            <property key="nodeTargetId" type="expression" required="true" dataSource="edges">
-                <caption>Target node id</caption>
-                <description></description>
-                <returnType type="String" />
-            </property>
-            <property key="edgeDirection" type="expression" required="true" dataSource="edges"
-                defaultValue="'Down'">
-                <caption>Line type</caption>
-                <description>'Up', 'Up_Right', 'Right', 'Down_Right', 'Down', 'Down_Left', 'Left', 'Up_Left'</description>
-                <returnType type="String" />
-            </property>
-            <property key="lineType" type="expression" required="true" dataSource="edges"
-                defaultValue="'Solid'">
-                <caption>Line type</caption>
-                <description>'Solid', 'Dotted'</description>
-                <returnType type="String" />
-            </property>
+            <propertyGroup caption="Data">
+                <property key="edges" type="datasource" isList="true" required="true">
+                    <caption>Edges list</caption>
+                    <description></description>
+                </property>
+                <property key="edgeId" type="expression" required="true" dataSource="edges">
+                    <caption>Id</caption>
+                    <description></description>
+                    <returnType type="String" />
+                </property>
+                <property key="nodeSourceId" type="expression" required="true" dataSource="edges">
+                    <caption>Source node id</caption>
+                    <description></description>
+                    <returnType type="String" />
+                </property>
+                <property key="nodeTargetId" type="expression" required="true" dataSource="edges">
+                    <caption>Target node id</caption>
+                    <description></description>
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Style">
+                <property key="lineType" type="expression" required="true" dataSource="edges"
+                    defaultValue="'Solid'">
+                    <caption>Line type</caption>
+                    <description>'Solid', 'Dotted'</description>
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
         </propertyGroup>
-        <propertyGroup caption="Style">
-            <property key="verticalOffset" type="expression" required="true" defaultValue="150"
-                dataSource="nodes">
-                <caption>Vertical offset</caption>
-                <description>Amount of pixels between each node vertically</description>
-                <returnType type="Integer" />
-            </property>
-            <property key="horizontalOffset" type="expression" required="true" defaultValue="400"
-                dataSource="nodes">
-                <caption>Horizontal offset</caption>
-                <description>Amount of pixels between each node horizontally</description>
-                <returnType type="Integer" />
-            </property>
+        <propertyGroup caption="General Style">
             <property key="defaultViewType" type="enumeration" defaultValue="FULL">
                 <caption>Default view type</caption>
                 <description>Full - display the entire flow on load
