@@ -1,4 +1,4 @@
-import { Handle, Position, useEdges } from "@xyflow/react";
+import { Handle, Position, useEdges, useNodes, Node, XYPosition } from "@xyflow/react";
 import classNames from "classnames";
 import { ReactElement, createElement, memo, useMemo, MouseEvent } from "react";
 import MxIcon from "./mxIcon";
@@ -10,18 +10,48 @@ export interface CustomNodeProps {
     draggable: boolean;
     isConnectable: boolean;
     selected: boolean;
+    positionAbsoluteX: number;
+    positionAbsoluteY: number;
 }
+
+const determineNodeDirectionIcon = (fromPos: XYPosition, toPos: XYPosition): string =>
+    fromPos.x > toPos.x
+        ? "mx-icon-chevron-left"
+        : fromPos.x < toPos.x
+        ? "mx-icon-chevron-right"
+        : fromPos.y > toPos.y
+        ? "mx-icon-chevron-up"
+        : fromPos.y < toPos.y
+        ? "mx-icon-chevron-down"
+        : "mx-icon-question-circle";
 
 export default memo((props: CustomNodeProps): ReactElement => {
     const edges = useEdges();
-    const nodesTargetingThis: string[] = useMemo(
-        () => edges.filter(edge => edge.target === props.id).map(edge => edge.source),
-        [edges, props.id]
-    );
-    const nodesSourcingThis: string[] = useMemo(
-        () => edges.filter(edge => edge.source === props.id).map(edge => edge.target),
-        [edges, props.id]
-    );
+    const nodes = useNodes();
+    const nodesTargetingThis: Node[] = useMemo(() => {
+        const newNodes: Node[] = [];
+        edges
+            .filter(edge => edge.target === props.id)
+            .forEach(edge => {
+                const sourceNode = nodes.find(node => node.id === edge.source);
+                if (sourceNode) {
+                    newNodes.push(sourceNode);
+                }
+            });
+        return newNodes;
+    }, [edges, props.id]);
+    const nodesSourcingThis: Node[] = useMemo(() => {
+        const newNodes: Node[] = [];
+        edges
+            .filter(edge => edge.source === props.id)
+            .forEach(edge => {
+                const targetNode = nodes.find(node => node.id === edge.target);
+                if (targetNode) {
+                    newNodes.push(targetNode);
+                }
+            });
+        return newNodes;
+    }, [edges, props.id]);
 
     const handleClickNav = (event: MouseEvent<HTMLButtonElement>, nodeId: string): void => {
         event.stopPropagation(); // prevent clicking the button from selecting THIS node
@@ -35,27 +65,39 @@ export default memo((props: CustomNodeProps): ReactElement => {
             )}
 
             <div className="target-btns">
-                {nodesTargetingThis.map(nodeId => (
+                {nodesTargetingThis.map(node => (
                     <button
-                        key={nodeId}
+                        key={node.id}
                         className="btn mx-button"
                         title="Navigate Up"
-                        onClick={event => handleClickNav(event, nodeId)}
+                        onClick={event => handleClickNav(event, node.id)}
                     >
-                        <MxIcon className="mx-icon-lined mx-icon-chevron-up" isGlyph={false} />
+                        <MxIcon
+                            className={`mx-icon-lined ${determineNodeDirectionIcon(
+                                { x: props.positionAbsoluteX, y: props.positionAbsoluteY },
+                                node.position
+                            )}`}
+                            isGlyph={false}
+                        />
                     </button>
                 ))}
             </div>
             <div className="node-content">{props.data.children}</div>
             <div className="source-btns">
-                {nodesSourcingThis.map(nodeId => (
+                {nodesSourcingThis.map(node => (
                     <button
-                        key={nodeId}
+                        key={node.id}
                         className="btn mx-button"
                         title="Navigate Down"
-                        onClick={event => handleClickNav(event, nodeId)}
+                        onClick={event => handleClickNav(event, node.id)}
                     >
-                        <MxIcon className="mx-icon-lined mx-icon-chevron-down" isGlyph={false} />
+                        <MxIcon
+                            className={`mx-icon-lined ${determineNodeDirectionIcon(
+                                { x: props.positionAbsoluteX, y: props.positionAbsoluteY },
+                                node.position
+                            )}`}
+                            isGlyph={false}
+                        />
                     </button>
                 ))}
             </div>
