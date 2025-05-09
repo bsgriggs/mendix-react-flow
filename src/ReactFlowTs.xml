@@ -54,9 +54,9 @@
                     <description></description>
                     <returnType type="String" />
                 </property>
-                <property key="nodeFocusOverride" type="expression" required="false">
+                <property key="focusedNodeOverride" type="expression" required="false">
                     <caption>Focus override</caption>
-                    <description>Set as the ID of a node to focus that node</description>
+                    <description>When this string changes, the widget will try to focus the node with the matching ID</description>
                     <returnType type="String" />
                 </property>
             </propertyGroup>

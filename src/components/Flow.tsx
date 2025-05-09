@@ -27,7 +27,7 @@ export interface FlowProps {
 
     // Nodes
     nodes: Node[];
-    nodeFocusOverride: string | undefined;
+    focusedNodeOverride: string | undefined;
 
     // Edges
     edges: Edge[];
@@ -48,6 +48,7 @@ const Flow = (props: FlowProps): ReactElement => {
     useEffect(() => setEdges(props.edges), [props.edges, setEdges]);
     const [retryAttempts, setRetryAttempts] = useState<number>(0);
     const [focusOverride, setFocusOverride] = useState<string>("");
+    const [draggable, setDraggable] = useState<boolean>(true);
 
     const store = useStoreApi();
     const { resetSelectedElements, addSelectedNodes } = store.getState();
@@ -81,24 +82,24 @@ const Flow = (props: FlowProps): ReactElement => {
 
     useEffect(() => {
         setRetryAttempts(0);
-    }, [props.nodeFocusOverride, setRetryAttempts]);
+    }, [props.focusedNodeOverride, setRetryAttempts]);
 
     useEffect(() => {
-        if (props.nodeFocusOverride !== focusOverride && retryAttempts < 30) {
+        if (props.focusedNodeOverride !== focusOverride && retryAttempts < 20) {
             setTimeout(() => {
-                if (props.nodeFocusOverride) {
-                    const success = focusNode(props.nodeFocusOverride);
+                if (props.focusedNodeOverride) {
+                    const success = focusNode(props.focusedNodeOverride);
                     if (!success) {
                         setRetryAttempts(retryAttempts + 1); // keep retrying until success
                     } else {
                         setRetryAttempts(0);
-                        setFocusOverride(props.nodeFocusOverride);
+                        setFocusOverride(props.focusedNodeOverride);
                     }
                 }
             }, 100);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.nodeFocusOverride, retryAttempts, setRetryAttempts, focusOverride, setFocusOverride]);
+    }, [props.focusedNodeOverride, retryAttempts, setRetryAttempts, focusOverride, setFocusOverride]);
     // focusNode cannot be in dependency arrays, infinite loop
 
     useEffect(() => {
@@ -122,8 +123,9 @@ const Flow = (props: FlowProps): ReactElement => {
             onNodeClick={(_, clickedNode) => focusNode(clickedNode.id)}
             onEdgeClick={(_, clickedEdge) => props.onClickEdge(clickedEdge)}
             panOnScroll
+            draggable={draggable}
         >
-            <Controls />
+            <Controls onInteractiveChange={newInteractiveState => setDraggable(newInteractiveState)} />
             <MiniMap zoomable pannable nodeStrokeWidth={5} nodeClassName={node => node.className || ""} />
             <Background />
         </ReactFlow>

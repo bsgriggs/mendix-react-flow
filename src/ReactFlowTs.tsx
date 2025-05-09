@@ -55,7 +55,6 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                               },
                               selected: props.selectedNode.selection === nodeObj,
                               deletable: false,
-                              draggable: true,
                               className: props.nodeClassName?.get(nodeObj).value,
                               data: {
                                   label: props.nodeLabel.get(nodeObj).value,
@@ -125,7 +124,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             tabIndex={props.tabIndex}
             // Nodes
             nodes={nodes}
-            nodeFocusOverride={props.nodeFocusOverride?.value}
+            focusedNodeOverride={props.focusedNodeOverride?.value}
             // Edges
             edges={edges}
             // Styling

@@ -22,7 +22,7 @@ export interface ReactFlowTsContainerProps {
     nodePosX: ListExpressionValue<Big>;
     nodePosY: ListExpressionValue<Big>;
     nodeClassName?: ListExpressionValue<string>;
-    nodeFocusOverride?: DynamicValue<string>;
+    focusedNodeOverride?: DynamicValue<string>;
     edges: ListValue;
     edgeId: ListExpressionValue<string>;
     edgeLabel?: ListExpressionValue<string>;
@@ -58,7 +58,7 @@ export interface ReactFlowTsPreviewProps {
     nodePosX: string;
     nodePosY: string;
     nodeClassName: string;
-    nodeFocusOverride: string;
+    focusedNodeOverride: string;
     edges: {} | { caption: string } | { type: string } | null;
     edgeId: string;
     edgeLabel: string;

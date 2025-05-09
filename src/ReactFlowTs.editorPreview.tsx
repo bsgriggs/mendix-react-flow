@@ -27,7 +27,7 @@ export function preview(props: ReactFlowTsPreviewProps): ReactElement {
                 },
                 { id: "3", data: { label: "Then me!" }, position: { x: 0, y: 100 } }
             ]}
-            nodeFocusOverride={undefined}
+            focusedNodeOverride={undefined}
             // Edges
             edges={[
                 { id: "1->3", source: "1", target: "3" },

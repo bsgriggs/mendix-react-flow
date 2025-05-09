@@ -14,7 +14,7 @@ export interface FlowProviderProps {
 
     // Nodes
     nodes: Node[];
-    nodeFocusOverride: string | undefined;
+    focusedNodeOverride: string | undefined;
 
     // Edges
     edges: Edge[];
