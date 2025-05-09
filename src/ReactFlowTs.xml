@@ -122,14 +122,14 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Zoom">
-                <property key="defaultViewType" type="enumeration" defaultValue="FULL">
+                <property key="defaultViewType" type="enumeration" defaultValue="ZOOM">
                     <caption>Default view type</caption>
                     <description>Full - display the entire flow on load
     Zoom - specify a default zoom value (starts at the top of the flow)
                     </description>
                     <enumerationValues>
-                        <enumerationValue key="FULL">Full</enumerationValue>
                         <enumerationValue key="ZOOM">Zoom</enumerationValue>
+                        <enumerationValue key="FULL">Full</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="defaultZoom" type="expression" required="true" defaultValue="1">

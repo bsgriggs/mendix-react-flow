@@ -7,7 +7,7 @@ import { ComponentType, CSSProperties, ReactNode } from "react";
 import { DynamicValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue } from "mendix";
 import { Big } from "big.js";
 
-export type DefaultViewTypeEnum = "FULL" | "ZOOM";
+export type DefaultViewTypeEnum = "ZOOM" | "FULL";
 
 export interface ReactFlowTsContainerProps {
     name: string;
