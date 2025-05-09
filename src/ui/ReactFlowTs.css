@@ -2,7 +2,7 @@
     padding: 1rem;
     border: 2px solid grey;
     border-radius: 1rem;
-    min-width: 30rem;
+    width: 30rem;
 }
 
 .mendix-react-flow .custom-node.selected {
