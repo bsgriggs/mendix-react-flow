@@ -28,6 +28,7 @@ const determineNodeDirectionIcon = (fromPos: XYPosition, toPos: XYPosition): str
 export default memo((props: CustomNodeProps): ReactElement => {
     const edges = useEdges();
     const nodes = useNodes();
+
     const nodesTargetingThis: Node[] = useMemo(() => {
         const newNodes: Node[] = [];
         if (props.selected) {
@@ -62,11 +63,12 @@ export default memo((props: CustomNodeProps): ReactElement => {
         (window as any).reactFlowFocus(nodeId);
     };
 
+    console.info("custom node", { nodesTargetingThis, nodesSourcingThis });
+
     return (
         <div className={classNames("custom-node", { selected: props.selected }, { nodrag: !props.draggable })}>
-            {nodesTargetingThis.length > 0 && (
-                <Handle type="target" position={Position.Top} isConnectable={false} draggable={false} />
-            )}
+            <Handle id="top" type="target" position={Position.Top} isConnectable={false} />
+
             {props.selected && (
                 <div className="target-btns">
                     {nodesTargetingThis.map(node => (
@@ -109,10 +111,7 @@ export default memo((props: CustomNodeProps): ReactElement => {
                     ))}
                 </div>
             )}
-
-            {nodesSourcingThis.length > 0 && (
-                <Handle type="source" position={Position.Bottom} isConnectable={false} draggable={false} />
-            )}
+            <Handle id="bottom" type="source" position={Position.Bottom} isConnectable={false} />
         </div>
     );
 });

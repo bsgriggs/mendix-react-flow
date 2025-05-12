@@ -74,6 +74,11 @@ const Flow = (props: FlowProps): ReactElement => {
                     maxZoom: Clamp(props.navZoom, 0.5, 2),
                     minZoom: Clamp(props.navZoom, 0.5, 2)
                 });
+                setTimeout(() => {
+                    // after the library focuses the node, focus the first available nav button
+                    (document.querySelector(".custom-node.selected .btn") as any).focus();
+                }, 550);
+
                 return true;
             }
             return false;

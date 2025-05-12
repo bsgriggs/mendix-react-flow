@@ -3,6 +3,38 @@
     border: 2px solid grey;
     border-radius: 1rem;
     width: 30rem;
+    position: relative;
+}
+
+.mendix-react-flow .target-btns,
+.mendix-react-flow .source-btns {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: row-reverse;
+    position: absolute;
+    top: -20px;
+    right: calc(50% - 16px);
+    z-index: 100;
+}
+.mendix-react-flow .target-btns .btn,
+.mendix-react-flow .source-btns .btn {
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    padding: 6px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.mendix-react-flow .source-btns:has(.mx-icon-chevron-right),
+.mendix-react-flow .target-btns:has(.mx-icon-chevron-right) {
+    right: calc(50% - 54px);
+}
+.mendix-react-flow .source-btns {
+    bottom: -20px;
+    top: auto;
+    z-index: 100;
 }
 
 .mendix-react-flow .custom-node.selected {
