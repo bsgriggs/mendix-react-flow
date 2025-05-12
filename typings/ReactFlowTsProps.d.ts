@@ -23,6 +23,8 @@ export interface ReactFlowTsContainerProps {
     nodeContent: ListWidgetValue;
     nodePosX: ListExpressionValue<Big>;
     nodePosY: ListExpressionValue<Big>;
+    nodeWidth?: ListExpressionValue<Big>;
+    nodeHeight?: ListExpressionValue<Big>;
     nodeClassName?: ListExpressionValue<string>;
     focusedNodeOverride?: DynamicValue<string>;
     allowDragging: ListExpressionValue<boolean>;
@@ -33,7 +35,9 @@ export interface ReactFlowTsContainerProps {
     nodeTargetId: ListExpressionValue<string>;
     targetLineSide: ListExpressionValue<string>;
     edgeClassName?: ListExpressionValue<string>;
+    arrowType: ListExpressionValue<string>;
     lineType: ListExpressionValue<string>;
+    curveType: ListExpressionValue<string>;
     containerWidth: DynamicValue<string>;
     containerHeight: DynamicValue<string>;
     loadingContent: ReactNode;
@@ -64,6 +68,8 @@ export interface ReactFlowTsPreviewProps {
     nodeContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     nodePosX: string;
     nodePosY: string;
+    nodeWidth: string;
+    nodeHeight: string;
     nodeClassName: string;
     focusedNodeOverride: string;
     allowDragging: string;
@@ -74,7 +80,9 @@ export interface ReactFlowTsPreviewProps {
     nodeTargetId: string;
     targetLineSide: string;
     edgeClassName: string;
+    arrowType: string;
     lineType: string;
+    curveType: string;
     containerWidth: string;
     containerHeight: string;
     loadingContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

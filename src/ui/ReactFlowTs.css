@@ -6,7 +6,6 @@
     padding: 1rem;
     border: 2px solid grey;
     border-radius: 1rem;
-    width: 30rem;
     position: relative;
     background-color: white;
 }
@@ -64,5 +63,5 @@
 }
 
 .mendix-react-flow path.react-flow__edge-path {
-    stroke-width: 4;
+    stroke-width: 3;
 }

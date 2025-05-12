@@ -14,17 +14,22 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                 ? props.edges.items.map((edgeObj, index) => {
                       const sourceID = props.nodeSourceId.get(edgeObj).value;
                       const targetID = props.nodeTargetId.get(edgeObj).value;
+                      const arrowType = props.arrowType.get(edgeObj).value;
+                      const curveType = props.curveType.get(edgeObj).value;
 
                       return {
                           id: `#${index}: ${sourceID}->${targetID}`,
+                          type: curveType === "bezier" ? "default" : curveType,
                           source: sourceID,
                           sourceHandle: `source-${props.sourceLineSide.get(edgeObj).value}`,
                           target: targetID,
                           targetHandle: `target-${props.targetLineSide.get(edgeObj).value}`,
                           selectable: false,
                           animated: props.lineType.get(edgeObj).value === "Dotted",
+
                           markerEnd: {
-                              type: MarkerType.Arrow
+                              type: arrowType === "Solid" ? MarkerType.ArrowClosed : MarkerType.Arrow,
+                              strokeWidth: 2
                           },
                           data: {
                               objItem: edgeObj
@@ -42,33 +47,38 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             props.edgeClassName,
             props.edgeLabel,
             props.targetLineSide,
-            props.sourceLineSide
+            props.sourceLineSide,
+            props.arrowType,
+            props.curveType
         ]
     );
 
     const nodes = useMemo(
         () =>
             props.nodes.status === ValueStatus.Available && props.nodes.items
-                ? props.nodes.items.map(
-                      nodeObj =>
-                          ({
-                              id: props.nodeId.get(nodeObj).value,
-                              type: "customNode",
-                              position: {
-                                  x: Number(props.nodePosX.get(nodeObj).value) || 0,
-                                  y: Number(props.nodePosY.get(nodeObj).value) || 0
-                              },
-                              selected: props.selectedNode.selection === nodeObj,
-                              deletable: false,
-                              draggable: props.allowDragging.get(nodeObj).value === true,
-                              className: props.nodeClassName?.get(nodeObj).value,
-                              data: {
-                                  label: props.nodeLabel.get(nodeObj).value,
-                                  objItem: nodeObj,
-                                  children: props.nodeContent.get(nodeObj)
-                              }
-                          } as Node)
-                  )
+                ? props.nodes.items.map(nodeObj => {
+                      const width = props.nodeWidth ? props.nodeWidth.get(nodeObj).value : undefined;
+                      const height = props.nodeHeight ? props.nodeHeight.get(nodeObj).value : undefined;
+                      return {
+                          id: props.nodeId.get(nodeObj).value,
+                          type: "customNode",
+                          position: {
+                              x: Number(props.nodePosX.get(nodeObj).value) || 0,
+                              y: Number(props.nodePosY.get(nodeObj).value) || 0
+                          },
+                          width: width ? Number(width) : undefined,
+                          height: height ? Number(height) : undefined,
+                          selected: props.selectedNode.selection === nodeObj,
+                          deletable: false,
+                          draggable: props.allowDragging.get(nodeObj).value === true,
+                          className: props.nodeClassName?.get(nodeObj).value,
+                          data: {
+                              label: props.nodeLabel.get(nodeObj).value,
+                              objItem: nodeObj,
+                              children: props.nodeContent.get(nodeObj)
+                          }
+                      } as Node;
+                  })
                 : [],
         [
             props.nodes,
@@ -79,7 +89,9 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             props.nodePosX,
             props.nodePosY,
             props.nodeLabel,
-            props.allowDragging
+            props.allowDragging,
+            props.nodeWidth,
+            props.nodeHeight
         ]
     );
 

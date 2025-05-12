@@ -25,12 +25,12 @@
                 </property>
                 <property key="nodeId" type="expression" required="true" dataSource="nodes">
                     <caption>Id</caption>
-                    <description>String that MUST be unique across ALL nodes</description>
+                    <description>String that MUST be unique across ALL nodes.</description>
                     <returnType type="String" />
                 </property>
                 <property key="nodeLabel" type="expression" required="true" dataSource="nodes">
                     <caption>Label</caption>
-                    <description>User friendly description of this node. Used to describe where the navigation buttons will go.</description>
+                    <description>User friendly name of the node.</description>
                     <returnType type="String" />
                 </property>
                 <property key="nodeContent" type="widgets" required="true" dataSource="nodes">
@@ -38,15 +38,28 @@
                     <description></description>
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Position">
+            <propertyGroup caption="Position (From the Top-Left) (In Pixels)">
                 <property key="nodePosX" type="expression" required="true" dataSource="nodes">
                     <caption>X position</caption>
-                    <description>Initial x position of the node (from left side)</description>
+                    <description>Negative is Left, Positive is Right</description>
                     <returnType type="Integer" />
                 </property>
                 <property key="nodePosY" type="expression" required="true" dataSource="nodes">
                     <caption>Y position</caption>
-                    <description>Initial y position of the node (from top side)</description>
+                    <description>Negative is Up, Positive is Down</description>
+                    <returnType type="Integer" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Size (Optional) (In Pixels)">
+                <property key="nodeWidth" type="expression" required="false" dataSource="nodes"
+                    defaultValue="300">
+                    <caption>Width</caption>
+                    <description></description>
+                    <returnType type="Integer" />
+                </property>
+                <property key="nodeHeight" type="expression" required="false" dataSource="nodes">
+                    <caption>Height</caption>
+                    <description></description>
                     <returnType type="Integer" />
                 </property>
             </propertyGroup>
@@ -58,13 +71,13 @@
                 </property>
                 <property key="focusedNodeOverride" type="expression" required="false">
                     <caption>Focus override</caption>
-                    <description>When this string changes, the widget will try to focus the node with the matching ID</description>
+                    <description>When this string changes, the widget will focus this Node ID.</description>
                     <returnType type="String" />
                 </property>
                 <property key="allowDragging" type="expression" required="true" defaultValue="true"
                     dataSource="nodes">
                     <caption>Allow dragging</caption>
-                    <description>The user can click and drag this node around</description>
+                    <description></description>
                     <returnType type="Boolean" />
                 </property>
             </propertyGroup>
@@ -77,29 +90,29 @@
                 </property>
                 <property key="edgeLabel" type="expression" required="false" dataSource="edges">
                     <caption>Label</caption>
-                    <description>(Optional) User friendly description of this edge</description>
+                    <description>(Optional) Displayed in the middle of the line.</description>
                     <returnType type="String" />
                 </property>
                 <property key="nodeSourceId" type="expression" required="true" dataSource="edges">
                     <caption>Source node id</caption>
-                    <description>ID of the node to start the line from</description>
+                    <description>ID of the node to start the line from.</description>
                     <returnType type="String" />
                 </property>
                 <property key="sourceLineSide" type="expression" required="true" dataSource="edges"
                     defaultValue="'Bottom'">
                     <caption>Source line side</caption>
-                    <description>Must be either on of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'</description>
+                    <description>Must be one of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'.</description>
                     <returnType type="String" />
                 </property>
                 <property key="nodeTargetId" type="expression" required="true" dataSource="edges">
                     <caption>Target node id</caption>
-                    <description>ID of the node to end the line at</description>
+                    <description>ID of the node to end the line at.</description>
                     <returnType type="String" />
                 </property>
                 <property key="targetLineSide" type="expression" required="true" dataSource="edges"
                     defaultValue="'Top'">
                     <caption>Target line side</caption>
-                    <description>Must be either on of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'</description>
+                    <description>Must be one of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'.</description>
                     <returnType type="String" />
                 </property>
             </propertyGroup>
@@ -109,10 +122,22 @@
                     <description></description>
                     <returnType type="String" />
                 </property>
+                <property key="arrowType" type="expression" required="true" dataSource="edges"
+                    defaultValue="'Line'">
+                    <caption>Arrow type</caption>
+                    <description>Must be one of the exact strings: 'Solid' or 'Line'.</description>
+                    <returnType type="String" />
+                </property>
                 <property key="lineType" type="expression" required="true" dataSource="edges"
                     defaultValue="'Solid'">
                     <caption>Line type</caption>
-                    <description>Must be the string 'Solid' or 'Dotted'</description>
+                    <description>Must be one of the exact strings: 'Solid' or 'Dotted'.</description>
+                    <returnType type="String" />
+                </property>
+                <property key="curveType" type="expression" required="true" dataSource="edges"
+                    defaultValue="'bezier'">
+                    <caption>Curve type</caption>
+                    <description>Must be one of the exact strings: 'bezier', 'step', 'smoothstep', or 'straight'.</description>
                     <returnType type="String" />
                 </property>
             </propertyGroup>
@@ -122,18 +147,18 @@
                 <property key="containerWidth" type="expression" required="true"
                     defaultValue="'100%'">
                     <caption>Width</caption>
-                    <description>String of a CSS Width</description>
+                    <description>String of a CSS Width.</description>
                     <returnType type="String" />
                 </property>
                 <property key="containerHeight" type="expression" required="true"
                     defaultValue="'75vh'">
                     <caption>Height</caption>
-                    <description>String of a CSS Height</description>
+                    <description>String of a CSS Height.</description>
                     <returnType type="String" />
                 </property>
                 <property key="loadingContent" type="widgets" required="true">
                     <caption>Loading content</caption>
-                    <description>Content shown while the widget is loading</description>
+                    <description>Content shown while the widget is loading.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Zoom">
@@ -170,7 +195,7 @@ Zoom - specify a default zoom value (starts at the top of the flow)</description
                 </property>
                 <property key="backgroundGap" type="expression" required="true" defaultValue="50">
                     <caption>Gap</caption>
-                    <description></description>
+                    <description>In Pixels</description>
                     <returnType type="Integer" />
                 </property>
             </propertyGroup>
@@ -182,7 +207,7 @@ Zoom - specify a default zoom value (starts at the top of the flow)</description
             </property>
             <property key="onDragNode" type="action" required="false" dataSource="nodes">
                 <caption>On drag node</caption>
-                <description>Execute after the user finished dragging a node</description>
+                <description>Execute after the user finished dragging a node.</description>
                 <!-- <actionVariables>
                     <actionVariable key="newXPosition" type="Integer"
                         caption="The absolute X position the node finished at" />
