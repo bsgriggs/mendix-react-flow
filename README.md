@@ -14,15 +14,22 @@ Implementation of the [React Flow library](https://reactflow.dev/) for Mendix
 
 ## Future Enhancements
 - Provide more control over which side of a node the edges connect to
+- Add an on-drag callback for setting position values to the node using [10.15+ Action Variables](https://docs.mendix.com/apidocs-mxsdk/apidocs/pluggable-widgets-property-types/#studio-pro-ui-10)
 
 ## Data Structures
+The following is the MINIMUM recommended data structure. 
+
+It can be expanded easily to include more data specific to the use case. For example, Nodes could have Latitude and Longitude attributes with a List to Widget Data View to display a map for the selected node.
 
 ## Usage
-
+The widget has the following properties panels.
 ### Nodes
 ![nodes](https://github.com/bsgriggs/mendix-react-flow/blob/media/nodes.png)  
 The Nodes List can be any object. This object will be used to evaluate ALL the other expressions on this tab.  
 _Note: The Node ID MUST BE UNIQUE across all nodes._  
+
+**Size**  
+Nodes will be 300 pixels wide by default. Their height will automatically expand to fit the custom content. The width can be overridden using CSS on the class `.mendix-react-flow .custom-node`.
 
 **Positions**  
 The recommendation is to have the Node objects store a simple coordinate system and then apply scaling in the widget. This makes it easier to manage the positions, and adjustments to the scale can be done all in one place. For example, the nodes could have positions (0,0) (0,1) (1,2) and scaling (400, 175), resulting in the final positions (0,0) (0, 175) and (400, 350).  
