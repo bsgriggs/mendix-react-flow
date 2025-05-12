@@ -43,7 +43,9 @@ export interface FlowProps {
 }
 
 const Flow = (props: FlowProps): ReactElement => {
+    // use states for nodes and edges, so dragging is saved
     const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+    useEffect(() => setNodes(props.nodes), [props.nodes, setNodes]);
     const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
     useEffect(() => setEdges(props.edges), [props.edges, setEdges]);
     const [retryAttempts, setRetryAttempts] = useState<number>(0);
@@ -103,12 +105,13 @@ const Flow = (props: FlowProps): ReactElement => {
     // focusNode cannot be in dependency arrays, infinite loop
 
     useEffect(() => {
-        const customFunctionedNodes = props.nodes.map(node => {
-            node.data.focusNode = focusNode;
-            return node;
-        });
-        setNodes(customFunctionedNodes);
-    }, [props.nodes, focusNode, setNodes]);
+        // Mount a special browser function, so the custom node can call this function without having to iterate all the nodes to set this function.
+        (window as any).reactFlowFocus = focusNode;
+        return () => {
+            // On unmount, remove the special function
+            (window as any).reactFlowFocus = undefined;
+        };
+    }, [focusNode]);
 
     return (
         <ReactFlow

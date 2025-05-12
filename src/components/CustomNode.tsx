@@ -30,32 +30,36 @@ export default memo((props: CustomNodeProps): ReactElement => {
     const nodes = useNodes();
     const nodesTargetingThis: Node[] = useMemo(() => {
         const newNodes: Node[] = [];
-        edges
-            .filter(edge => edge.target === props.id)
-            .forEach(edge => {
-                const sourceNode = nodes.find(node => node.id === edge.source);
-                if (sourceNode) {
-                    newNodes.push(sourceNode);
-                }
-            });
+        if (props.selected) {
+            edges
+                .filter(edge => edge.target === props.id)
+                .forEach(edge => {
+                    const sourceNode = nodes.find(node => node.id === edge.source);
+                    if (sourceNode) {
+                        newNodes.push(sourceNode);
+                    }
+                });
+        }
         return newNodes;
-    }, [edges, nodes, props.id]);
+    }, [edges, nodes, props.id, props.selected]);
     const nodesSourcingThis: Node[] = useMemo(() => {
         const newNodes: Node[] = [];
-        edges
-            .filter(edge => edge.source === props.id)
-            .forEach(edge => {
-                const targetNode = nodes.find(node => node.id === edge.target);
-                if (targetNode) {
-                    newNodes.push(targetNode);
-                }
-            });
+        if (props.selected) {
+            edges
+                .filter(edge => edge.source === props.id)
+                .forEach(edge => {
+                    const targetNode = nodes.find(node => node.id === edge.target);
+                    if (targetNode) {
+                        newNodes.push(targetNode);
+                    }
+                });
+        }
         return newNodes;
-    }, [edges, nodes, props.id]);
+    }, [edges, nodes, props.id, props.selected]);
 
     const handleClickNav = (event: MouseEvent<HTMLButtonElement>, nodeId: string): void => {
         event.stopPropagation(); // prevent clicking the button from selecting THIS node
-        props.data.focusNode(nodeId);
+        (window as any).reactFlowFocus(nodeId);
     };
 
     return (
@@ -63,44 +67,49 @@ export default memo((props: CustomNodeProps): ReactElement => {
             {nodesTargetingThis.length > 0 && (
                 <Handle type="target" position={Position.Top} isConnectable={false} draggable={false} />
             )}
+            {props.selected && (
+                <div className="target-btns">
+                    {nodesTargetingThis.map(node => (
+                        <button
+                            key={node.id}
+                            className="btn mx-button"
+                            title={`Navigate to ${props.data.label}`}
+                            onClick={event => handleClickNav(event, node.id)}
+                        >
+                            <MxIcon
+                                className={`mx-icon-lined ${determineNodeDirectionIcon(
+                                    { x: props.positionAbsoluteX, y: props.positionAbsoluteY },
+                                    node.position
+                                )}`}
+                                isGlyph={false}
+                            />
+                        </button>
+                    ))}
+                </div>
+            )}
 
-            <div className="target-btns">
-                {nodesTargetingThis.map(node => (
-                    <button
-                        key={node.id}
-                        className="btn mx-button"
-                        title={`Navigate to ${props.data.label}`}
-                        onClick={event => handleClickNav(event, node.id)}
-                    >
-                        <MxIcon
-                            className={`mx-icon-lined ${determineNodeDirectionIcon(
-                                { x: props.positionAbsoluteX, y: props.positionAbsoluteY },
-                                node.position
-                            )}`}
-                            isGlyph={false}
-                        />
-                    </button>
-                ))}
-            </div>
             <div className="node-content">{props.data.children}</div>
-            <div className="source-btns">
-                {nodesSourcingThis.map(node => (
-                    <button
-                        key={node.id}
-                        className="btn mx-button"
-                        title={`Navigate to ${props.data.label}`}
-                        onClick={event => handleClickNav(event, node.id)}
-                    >
-                        <MxIcon
-                            className={`mx-icon-lined ${determineNodeDirectionIcon(
-                                { x: props.positionAbsoluteX, y: props.positionAbsoluteY },
-                                node.position
-                            )}`}
-                            isGlyph={false}
-                        />
-                    </button>
-                ))}
-            </div>
+            {props.selected && (
+                <div className="source-btns">
+                    {nodesSourcingThis.map(node => (
+                        <button
+                            key={node.id}
+                            className="btn mx-button"
+                            title={`Navigate to ${props.data.label}`}
+                            onClick={event => handleClickNav(event, node.id)}
+                        >
+                            <MxIcon
+                                className={`mx-icon-lined ${determineNodeDirectionIcon(
+                                    { x: props.positionAbsoluteX, y: props.positionAbsoluteY },
+                                    node.position
+                                )}`}
+                                isGlyph={false}
+                            />
+                        </button>
+                    ))}
+                </div>
+            )}
+
             {nodesSourcingThis.length > 0 && (
                 <Handle type="source" position={Position.Bottom} isConnectable={false} draggable={false} />
             )}
