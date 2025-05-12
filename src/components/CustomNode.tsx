@@ -31,43 +31,41 @@ export default memo((props: CustomNodeProps): ReactElement => {
 
     const nodesTargetingThis: Node[] = useMemo(() => {
         const newNodes: Node[] = [];
-        if (props.selected) {
-            edges
-                .filter(edge => edge.target === props.id)
-                .forEach(edge => {
-                    const sourceNode = nodes.find(node => node.id === edge.source);
-                    if (sourceNode) {
-                        newNodes.push(sourceNode);
-                    }
-                });
-        }
+        edges
+            .filter(edge => edge.target === props.id)
+            .forEach(edge => {
+                const sourceNode = nodes.find(node => node.id === edge.source);
+                if (sourceNode) {
+                    newNodes.push(sourceNode);
+                }
+            });
+
         return newNodes;
-    }, [edges, nodes, props.id, props.selected]);
+    }, [edges, nodes, props.id]);
     const nodesSourcingThis: Node[] = useMemo(() => {
         const newNodes: Node[] = [];
-        if (props.selected) {
-            edges
-                .filter(edge => edge.source === props.id)
-                .forEach(edge => {
-                    const targetNode = nodes.find(node => node.id === edge.target);
-                    if (targetNode) {
-                        newNodes.push(targetNode);
-                    }
-                });
-        }
+        edges
+            .filter(edge => edge.source === props.id)
+            .forEach(edge => {
+                const targetNode = nodes.find(node => node.id === edge.target);
+                if (targetNode) {
+                    newNodes.push(targetNode);
+                }
+            });
+
         return newNodes;
-    }, [edges, nodes, props.id, props.selected]);
+    }, [edges, nodes, props.id]);
 
     const handleClickNav = (event: MouseEvent<HTMLButtonElement>, nodeId: string): void => {
         event.stopPropagation(); // prevent clicking the button from selecting THIS node
         (window as any).reactFlowFocus(nodeId);
     };
 
-    console.info("custom node", { nodesTargetingThis, nodesSourcingThis });
-
     return (
         <div className={classNames("custom-node", { selected: props.selected }, { nodrag: !props.draggable })}>
-            <Handle id="top" type="target" position={Position.Top} isConnectable={false} />
+            {nodesTargetingThis.length > 0 && (
+                <Handle id="top" type="target" position={Position.Top} isConnectable={false} />
+            )}
 
             {props.selected && (
                 <div className="target-btns">
@@ -111,7 +109,9 @@ export default memo((props: CustomNodeProps): ReactElement => {
                     ))}
                 </div>
             )}
-            <Handle id="bottom" type="source" position={Position.Bottom} isConnectable={false} />
+            {nodesSourcingThis.length > 0 && (
+                <Handle id="bottom" type="source" position={Position.Bottom} isConnectable={false} />
+            )}
         </div>
     );
 });
