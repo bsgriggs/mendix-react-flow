@@ -2,7 +2,7 @@ import { ReactElement, createElement, CSSProperties } from "react";
 import { Edge, Node, ReactFlowProvider } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import classNames from "classnames";
-import { DefaultViewTypeEnum } from "../../typings/ReactFlowTsProps";
+import { BackgroundTypeEnum, DefaultViewTypeEnum } from "../../typings/ReactFlowTsProps";
 import Flow from "./Flow";
 
 export interface FlowProviderProps {
@@ -26,8 +26,12 @@ export interface FlowProviderProps {
     defaultZoom: number;
     navZoom: number;
 
+    backgroundType: BackgroundTypeEnum;
+    backgroundGap: number;
+
     // Actions
     onClickNode: (clickedNode: Node) => void;
+    onDragNode: (draggedNode: Node) => void;
     onClickEdge: (clickedEdge: Edge) => void;
 }
 

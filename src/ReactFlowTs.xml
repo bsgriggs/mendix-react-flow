@@ -61,6 +61,12 @@
                     <description>When this string changes, the widget will try to focus the node with the matching ID</description>
                     <returnType type="String" />
                 </property>
+                <property key="allowDragging" type="expression" required="true" defaultValue="true"
+                    dataSource="nodes">
+                    <caption>Allow dragging</caption>
+                    <description>The user can click and drag this node around</description>
+                    <returnType type="Boolean" />
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Edges">
@@ -69,12 +75,7 @@
                     <caption>Edges list</caption>
                     <description></description>
                 </property>
-                <property key="edgeId" type="expression" required="true" dataSource="edges">
-                    <caption>Id</caption>
-                    <description>String that MUST be unique across ALL edges</description>
-                    <returnType type="String" />
-                </property>
-                <property key="edgeLabel" type="expression" required="false" dataSource="nodes">
+                <property key="edgeLabel" type="expression" required="false" dataSource="edges">
                     <caption>Label</caption>
                     <description>(Optional) User friendly description of this edge</description>
                     <returnType type="String" />
@@ -84,9 +85,21 @@
                     <description>ID of the node to start the line from</description>
                     <returnType type="String" />
                 </property>
+                <property key="sourceLineSide" type="expression" required="true" dataSource="edges"
+                    defaultValue="'Bottom'">
+                    <caption>Source line side</caption>
+                    <description>Must be either on of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'</description>
+                    <returnType type="String" />
+                </property>
                 <property key="nodeTargetId" type="expression" required="true" dataSource="edges">
                     <caption>Target node id</caption>
                     <description>ID of the node to end the line at</description>
+                    <returnType type="String" />
+                </property>
+                <property key="targetLineSide" type="expression" required="true" dataSource="edges"
+                    defaultValue="'Top'">
+                    <caption>Target line side</caption>
+                    <description>Must be either on of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'</description>
                     <returnType type="String" />
                 </property>
             </propertyGroup>
@@ -144,11 +157,38 @@ Zoom - specify a default zoom value (starts at the top of the flow)</description
                     <returnType type="Decimal" />
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Background">
+                <property key="backgroundType" type="enumeration" required="true"
+                    defaultValue="CROSSES">
+                    <caption>Type</caption>
+                    <description></description>
+                    <enumerationValues>
+                        <enumerationValue key="CROSSES">Crosses</enumerationValue>
+                        <enumerationValue key="DOTS">Dots</enumerationValue>
+                        <enumerationValue key="LINES">Lines</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="backgroundGap" type="expression" required="true" defaultValue="50">
+                    <caption>Gap</caption>
+                    <description></description>
+                    <returnType type="Integer" />
+                </property>
+            </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Events">
             <property key="onClickNode" type="action" required="false" dataSource="nodes">
                 <caption>On click node</caption>
                 <description></description>
+            </property>
+            <property key="onDragNode" type="action" required="false" dataSource="nodes">
+                <caption>On drag node</caption>
+                <description>Execute after the user finished dragging a node</description>
+                <!-- <actionVariables>
+                    <actionVariable key="newXPosition" type="Integer"
+                        caption="The absolute X position the node finished at" />
+                    <actionVariable key="newYPosition" type="Integer"
+                        caption="The absolute Y position the node finished at" />
+                </actionVariables> -->
             </property>
             <property key="onClickEdge" type="action" required="false" dataSource="edges">
                 <caption>On click edge</caption>

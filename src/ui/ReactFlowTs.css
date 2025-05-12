@@ -1,16 +1,20 @@
+:root {
+    --focus: #1491eb;
+}
+
 .mendix-react-flow .custom-node {
     padding: 1rem;
     border: 2px solid grey;
     border-radius: 1rem;
     width: 30rem;
     position: relative;
+    background-color: white;
 }
 
 .mendix-react-flow .target-btns,
 .mendix-react-flow .source-btns {
     display: flex;
     gap: 0.5rem;
-    flex-direction: row-reverse;
     position: absolute;
     top: -20px;
     right: calc(50% - 16px);
@@ -38,7 +42,9 @@
 }
 
 .mendix-react-flow .custom-node.selected {
-    border: 2px solid black;
+    outline: 3px solid var(--focus);
+    outline-offset: 4px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 .mendix-react-flow .legend {

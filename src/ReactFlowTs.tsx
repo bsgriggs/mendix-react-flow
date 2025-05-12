@@ -11,33 +11,38 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
     const edges = useMemo(
         () =>
             props.edges.status === ValueStatus.Available && props.edges.items
-                ? props.edges.items.map(
-                      edgeObj =>
-                          ({
-                              id: props.edgeId.get(edgeObj).value,
-                              source: props.nodeSourceId.get(edgeObj).value,
-                              target: props.nodeTargetId.get(edgeObj).value,
-                              selectable: false,
-                              animated: props.lineType.get(edgeObj).value === "Dotted",
-                              markerEnd: {
-                                  type: MarkerType.Arrow
-                              },
-                              data: {
-                                  objItem: edgeObj
-                              },
-                              label: props.edgeLabel?.get(edgeObj).value,
-                              className: props.edgeClassName?.get(edgeObj).value
-                          } as Edge)
-                  )
+                ? props.edges.items.map((edgeObj, index) => {
+                      const sourceID = props.nodeSourceId.get(edgeObj).value;
+                      const targetID = props.nodeTargetId.get(edgeObj).value;
+
+                      return {
+                          id: `#${index}: ${sourceID}->${targetID}`,
+                          source: sourceID,
+                          sourceHandle: `source-${props.sourceLineSide.get(edgeObj).value}`,
+                          target: targetID,
+                          targetHandle: `target-${props.targetLineSide.get(edgeObj).value}`,
+                          selectable: false,
+                          animated: props.lineType.get(edgeObj).value === "Dotted",
+                          markerEnd: {
+                              type: MarkerType.Arrow
+                          },
+                          data: {
+                              objItem: edgeObj
+                          },
+                          label: props.edgeLabel?.get(edgeObj).value,
+                          className: props.edgeClassName?.get(edgeObj).value
+                      } as Edge;
+                  })
                 : [],
         [
             props.edges,
-            props.edgeId,
             props.nodeSourceId,
             props.nodeTargetId,
             props.lineType,
             props.edgeClassName,
-            props.edgeLabel
+            props.edgeLabel,
+            props.targetLineSide,
+            props.sourceLineSide
         ]
     );
 
@@ -55,6 +60,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                               },
                               selected: props.selectedNode.selection === nodeObj,
                               deletable: false,
+                              draggable: props.allowDragging.get(nodeObj).value === true,
                               className: props.nodeClassName?.get(nodeObj).value,
                               data: {
                                   label: props.nodeLabel.get(nodeObj).value,
@@ -72,7 +78,8 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             props.nodeContent,
             props.nodePosX,
             props.nodePosY,
-            props.nodeLabel
+            props.nodeLabel,
+            props.allowDragging
         ]
     );
 
@@ -95,6 +102,16 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             }
         },
         [props.onClickEdge]
+    );
+
+    const handleNodeDrag = useCallback(
+        (draggedNode: Node): void => {
+            const clickObj = draggedNode.data?.objItem;
+            if (props.onDragNode && clickObj) {
+                props.onDragNode.get(clickObj as ObjectItem).execute();
+            }
+        },
+        [props.onClickNode, props.selectedNode]
     );
 
     if (
@@ -133,8 +150,11 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             defaultViewType={props.defaultViewType}
             defaultZoom={Number(props.defaultZoom.value)}
             navZoom={Number(props.navZoom.value)}
+            backgroundGap={Number(props.backgroundGap.value || 50)}
+            backgroundType={props.backgroundType}
             // Actions
             onClickNode={handleNodeClick}
+            onDragNode={handleNodeDrag}
             onClickEdge={handleEdgeClick}
         />
     );

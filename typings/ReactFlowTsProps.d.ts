@@ -9,6 +9,8 @@ import { Big } from "big.js";
 
 export type DefaultViewTypeEnum = "ZOOM" | "FULL";
 
+export type BackgroundTypeEnum = "CROSSES" | "DOTS" | "LINES";
+
 export interface ReactFlowTsContainerProps {
     name: string;
     class: string;
@@ -23,11 +25,13 @@ export interface ReactFlowTsContainerProps {
     nodePosY: ListExpressionValue<Big>;
     nodeClassName?: ListExpressionValue<string>;
     focusedNodeOverride?: DynamicValue<string>;
+    allowDragging: ListExpressionValue<boolean>;
     edges: ListValue;
-    edgeId: ListExpressionValue<string>;
     edgeLabel?: ListExpressionValue<string>;
     nodeSourceId: ListExpressionValue<string>;
+    sourceLineSide: ListExpressionValue<string>;
     nodeTargetId: ListExpressionValue<string>;
+    targetLineSide: ListExpressionValue<string>;
     edgeClassName?: ListExpressionValue<string>;
     lineType: ListExpressionValue<string>;
     containerWidth: DynamicValue<string>;
@@ -36,7 +40,10 @@ export interface ReactFlowTsContainerProps {
     defaultViewType: DefaultViewTypeEnum;
     defaultZoom: DynamicValue<Big>;
     navZoom: DynamicValue<Big>;
+    backgroundType: BackgroundTypeEnum;
+    backgroundGap: DynamicValue<Big>;
     onClickNode?: ListActionValue;
+    onDragNode?: ListActionValue;
     onClickEdge?: ListActionValue;
 }
 
@@ -59,11 +66,13 @@ export interface ReactFlowTsPreviewProps {
     nodePosY: string;
     nodeClassName: string;
     focusedNodeOverride: string;
+    allowDragging: string;
     edges: {} | { caption: string } | { type: string } | null;
-    edgeId: string;
     edgeLabel: string;
     nodeSourceId: string;
+    sourceLineSide: string;
     nodeTargetId: string;
+    targetLineSide: string;
     edgeClassName: string;
     lineType: string;
     containerWidth: string;
@@ -72,6 +81,9 @@ export interface ReactFlowTsPreviewProps {
     defaultViewType: DefaultViewTypeEnum;
     defaultZoom: string;
     navZoom: string;
+    backgroundType: BackgroundTypeEnum;
+    backgroundGap: string;
     onClickNode: {} | null;
+    onDragNode: {} | null;
     onClickEdge: {} | null;
 }

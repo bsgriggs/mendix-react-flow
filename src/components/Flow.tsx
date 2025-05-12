@@ -10,11 +10,12 @@ import {
     Background,
     useEdgesState,
     useNodesState,
-    useStoreApi
+    useStoreApi,
+    BackgroundVariant
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import CustomNode from "./CustomNode";
-import { DefaultViewTypeEnum } from "../../typings/ReactFlowTsProps";
+import { BackgroundTypeEnum, DefaultViewTypeEnum } from "../../typings/ReactFlowTsProps";
 import Clamp from "../utils/Clamp";
 
 const nodeTypes = {
@@ -37,8 +38,12 @@ export interface FlowProps {
     defaultZoom: number;
     navZoom: number;
 
+    backgroundType: BackgroundTypeEnum;
+    backgroundGap: number;
+
     // Actions
     onClickNode: (clickedNode: Node) => void;
+    onDragNode: (draggedNode: Node) => void;
     onClickEdge: (clickedEdge: Edge) => void;
 }
 
@@ -84,7 +89,7 @@ const Flow = (props: FlowProps): ReactElement => {
             return false;
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [fitView, props.nodes, Clamp, resetSelectedElements, addSelectedNodes]
+        [fitView, props.nodes, Clamp, resetSelectedElements, addSelectedNodes, props.navZoom]
     ); // props.onClickNode cannot be in dependency arrays, infinite loop
 
     useEffect(() => {
@@ -118,6 +123,18 @@ const Flow = (props: FlowProps): ReactElement => {
         };
     }, [focusNode]);
 
+    const backgroundVariant = useMemo(
+        (): BackgroundVariant =>
+            props.backgroundType === "DOTS"
+                ? BackgroundVariant.Dots
+                : props.backgroundType === "CROSSES"
+                ? BackgroundVariant.Cross
+                : props.backgroundType === "LINES"
+                ? BackgroundVariant.Lines
+                : BackgroundVariant.Dots,
+        [props.backgroundType]
+    );
+
     return (
         <ReactFlow
             nodes={nodes}
@@ -129,13 +146,17 @@ const Flow = (props: FlowProps): ReactElement => {
             defaultViewport={defaultViewport}
             elementsSelectable
             onNodeClick={(_, clickedNode) => focusNode(clickedNode.id)}
+            onNodeDragStop={(_, draggedNode) => props.onDragNode(draggedNode)}
             onEdgeClick={(_, clickedEdge) => props.onClickEdge(clickedEdge)}
             panOnScroll
             draggable={draggable}
         >
-            <Controls onInteractiveChange={newInteractiveState => setDraggable(newInteractiveState)} />
+            <Controls
+                onInteractiveChange={newInteractiveState => setDraggable(newInteractiveState)}
+                position="top-right"
+            />
             <MiniMap zoomable pannable nodeStrokeWidth={5} nodeClassName={node => node.className || ""} />
-            <Background />
+            <Background variant={backgroundVariant} gap={props.backgroundGap} />
         </ReactFlow>
     );
 };
