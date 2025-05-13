@@ -3,6 +3,8 @@ Implementation of the [React Flow library](https://reactflow.dev/) for Mendix
 
 ![demo](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo.png)  
 
+![studioProDefault](https://github.com/bsgriggs/mendix-react-flow/blob/media/studioProDefault.png)  
+
 ## Features
 - Display linked data with dynamic content
 - Control over the positions and sizes of each node
@@ -76,10 +78,24 @@ When the user drags a node, the node can be set to snap to a grid.
 
 ![nodes_GridSnap](https://github.com/bsgriggs/mendix-react-flow/blob/media/nodes_GridSnap.png)  
 
+**Node Toolbar**  
+The toolbar is an easy way to display custom buttons/data relative to each node. As an example, put an edit button for a node at "Top" and "end".  
+![demo_Toolbar](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_Toolbar.png)  
+When enabled, the following settings will display. These define where to place the toolbar relative to each node.  
+![nodes_Toolbar](https://github.com/bsgriggs/mendix-react-flow/blob/media/nodes_Toolbar.png)  
+
+On the Studio Pro page, a new section will appear for the content of the toolbar relative to each node.  
+![nodes_ToolbarStudioPro](https://github.com/bsgriggs/mendix-react-flow/blob/media/nodes_ToolbarStudioPro.png)  
+
 **Focus override**  
 This setting allows control of the focused node outside the widget. The widget only watches for when the value changes and then tries to find the matching node by its ID.
 
 Note: It is an expression, not an attribute. It will NOT get updated with the current selection.
+
+**Customization**
+- Dynamic Class: set a CSS class relative to each node. Useful for making a node a certain color based on its data.
+- Focus Override: (Optional) the Node ID to focus. When the value changes, the widget will search for and focus on that node. This can be used to focus a node by default.
+- Allow dragging: a boolean expression that determines if each node is draggable.
 
 ### Edges
 ![edges](https://github.com/bsgriggs/mendix-react-flow/blob/media/edges.png)  
@@ -100,8 +116,14 @@ Note: the default zoom is to the point (400, 0) which should make (0,0) in the c
 ![events](https://github.com/bsgriggs/mendix-react-flow/blob/media/events.png)  
 Optional events for when the user clicks a node or clicks an edge. The events will pass the exact object from either the Node or Edge data source.
 
+### Accessibility
+![accessibility](https://github.com/bsgriggs/mendix-react-flow/blob/media/accessibility.png)  
+
+### Common
+![common](https://github.com/bsgriggs/mendix-react-flow/blob/media/common.png)  
+
 ## Demo project
-[link to sandbox]
+https://widgettesting105-sandbox.mxapps.io/p/react-flow
 
 ## Issues, suggestions and feature requests
 https://github.com/bsgriggs/mendix-react-flow/issues 
