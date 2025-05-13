@@ -124,7 +124,7 @@ _Note: the thickness of the lines and arrows can be customized with CSS on `.men
 The React Flow library requires the container to have a predefined size. Set the width and height as a string of CSS distances.  
 
 **Zoom**  
-Either have the widget zoom to a specific scale on load or attempt to show the full render. The Navigation Zoom is the zoom after the user clicks on the node arrow buttons. *Note: if the focus override is set when the widget loads, the widget will use the focus zoom instead.*  
+Either have the widget zoom to a specific scale on load or attempt to show the full render. The Navigation Zoom is the zoom after the user clicks on the node arrow buttons. *Note: if `Nodes -> Customization -> Focus Override` is set when the widget loads, the widget will use the focus zoom instead.*  
   
 Note: the default zoom is to the point (400, 0), which _should_ make (0,0) in the center-top of the display.
 
