@@ -182,23 +182,38 @@ Zoom - specify a default zoom value (starts at the top of the flow)</description
                     <returnType type="Decimal" />
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Background">
-                <property key="backgroundType" type="enumeration" required="true"
-                    defaultValue="CROSSES">
-                    <caption>Type</caption>
-                    <description></description>
-                    <enumerationValues>
-                        <enumerationValue key="CROSSES">Crosses</enumerationValue>
-                        <enumerationValue key="DOTS">Dots</enumerationValue>
-                        <enumerationValue key="LINES">Lines</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="backgroundGap" type="expression" required="true" defaultValue="50">
-                    <caption>Gap</caption>
-                    <description>In Pixels</description>
-                    <returnType type="Integer" />
-                </property>
-            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Background">
+            <property key="backgroundType" type="enumeration" required="true"
+                defaultValue="CROSSES">
+                <caption>Type</caption>
+                <description></description>
+                <enumerationValues>
+                    <enumerationValue key="CROSSES">Crosses</enumerationValue>
+                    <enumerationValue key="DOTS">Dots</enumerationValue>
+                    <enumerationValue key="LINES">Lines</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="backgroundGap" type="expression" required="true" defaultValue="50">
+                <caption>Gap</caption>
+                <description></description>
+                <returnType type="Integer" />
+            </property>
+            <property key="dotSize" type="expression" required="true" defaultValue="1">
+                <caption>Dot size</caption>
+                <description></description>
+                <returnType type="Integer" />
+            </property>
+            <property key="crossSize" type="expression" required="true" defaultValue="6">
+                <caption>Cross size</caption>
+                <description></description>
+                <returnType type="Integer" />
+            </property>
+            <property key="lineWidth" type="expression" required="true" defaultValue="1">
+                <caption>Line width</caption>
+                <description></description>
+                <returnType type="Integer" />
+            </property>
         </propertyGroup>
         <propertyGroup caption="Events">
             <property key="onClickNode" type="action" required="false" dataSource="nodes">

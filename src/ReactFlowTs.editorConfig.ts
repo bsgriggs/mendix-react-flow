@@ -1,5 +1,5 @@
 import { ReactFlowTsPreviewProps } from "../typings/ReactFlowTsProps";
-import { hidePropertyIn } from "@mendix/pluggable-widgets-tools";
+import { hidePropertyIn, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
 
 export type Platform = "web" | "desktop";
 
@@ -106,6 +106,18 @@ export function getProperties(
 ): Properties {
     if (_values.defaultViewType === "FULL") {
         hidePropertyIn(defaultProperties, _values, "defaultZoom");
+    }
+
+    switch (_values.backgroundType) {
+        case "CROSSES":
+            hidePropertiesIn(defaultProperties, _values, ["dotSize", "lineWidth"]);
+            break;
+        case "DOTS":
+            hidePropertiesIn(defaultProperties, _values, ["crossSize", "lineWidth"]);
+            break;
+        case "LINES":
+            hidePropertiesIn(defaultProperties, _values, ["crossSize", "dotSize"]);
+            break;
     }
 
     return defaultProperties;

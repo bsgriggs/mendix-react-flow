@@ -26,8 +26,10 @@ export interface FlowProviderProps {
     defaultZoom: number;
     navZoom: number;
 
+    //Background
     backgroundType: BackgroundTypeEnum;
     backgroundGap: number;
+    backgroundSize: number;
 
     // Actions
     onClickNode: (clickedNode: Node) => void;

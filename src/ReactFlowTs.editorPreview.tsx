@@ -39,8 +39,10 @@ export function preview(props: ReactFlowTsPreviewProps): ReactElement {
             defaultViewType="ZOOM"
             defaultZoom={1}
             navZoom={1}
+            // Background
             backgroundGap={50}
             backgroundType={props.backgroundType}
+            backgroundSize={props.backgroundType === "CROSSES" ? 6 : props.backgroundType === "DOTS" ? 1 : 1}
             // Actions
             onClickNode={clickedNode => console.debug(`clicked node ${clickedNode}`)}
             onDragNode={draggedNode => console.debug(`dragged node ${draggedNode}`)}

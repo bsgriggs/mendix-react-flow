@@ -46,6 +46,9 @@ export interface ReactFlowTsContainerProps {
     navZoom: DynamicValue<Big>;
     backgroundType: BackgroundTypeEnum;
     backgroundGap: DynamicValue<Big>;
+    dotSize: DynamicValue<Big>;
+    crossSize: DynamicValue<Big>;
+    lineWidth: DynamicValue<Big>;
     onClickNode?: ListActionValue;
     onDragNode?: ListActionValue;
     onClickEdge?: ListActionValue;
@@ -93,6 +96,9 @@ export interface ReactFlowTsPreviewProps {
     navZoom: string;
     backgroundType: BackgroundTypeEnum;
     backgroundGap: string;
+    dotSize: string;
+    crossSize: string;
+    lineWidth: string;
     onClickNode: {} | null;
     onDragNode: {} | null;
     onClickEdge: {} | null;

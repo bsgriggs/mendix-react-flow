@@ -166,8 +166,16 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             defaultViewType={props.defaultViewType}
             defaultZoom={Number(props.defaultZoom.value)}
             navZoom={Number(props.navZoom.value)}
+            //Background
             backgroundGap={Number(props.backgroundGap.value || 50)}
             backgroundType={props.backgroundType}
+            backgroundSize={
+                props.backgroundType === "CROSSES"
+                    ? Number(props.crossSize.value)
+                    : props.backgroundType === "DOTS"
+                    ? Number(props.dotSize.value)
+                    : Number(props.lineWidth.value)
+            }
             // Actions
             onClickNode={handleNodeClick}
             onDragNode={handleNodeDrag}

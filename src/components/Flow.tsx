@@ -38,8 +38,10 @@ export interface FlowProps {
     defaultZoom: number;
     navZoom: number;
 
+    //Background
     backgroundType: BackgroundTypeEnum;
     backgroundGap: number;
+    backgroundSize: number;
 
     // Actions
     onClickNode: (clickedNode: Node) => void;
@@ -151,7 +153,12 @@ const Flow = (props: FlowProps): ReactElement => {
         >
             <Controls showInteractive={false} position="top-right" />
             <MiniMap zoomable pannable nodeStrokeWidth={5} nodeClassName={node => node.className || ""} />
-            <Background variant={backgroundVariant} gap={props.backgroundGap} />
+            <Background
+                variant={backgroundVariant}
+                gap={props.backgroundGap}
+                lineWidth={backgroundVariant === BackgroundVariant.Lines ? props.backgroundSize : undefined}
+                size={backgroundVariant !== BackgroundVariant.Lines ? props.backgroundSize : undefined}
+            />
         </ReactFlow>
     );
 };
