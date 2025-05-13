@@ -87,8 +87,9 @@ When enabled, the following settings will display. These define where to place t
 On the Studio Pro page, a new section will appear for the content of the toolbar relative to each node.  
 ![nodes_ToolbarStudioPro](https://github.com/bsgriggs/mendix-react-flow/blob/media/nodes_ToolbarStudioPro.png)  
 
-**Focus override**  
-This setting allows control of the focused node outside the widget. The widget only watches for when the value changes and then tries to find the matching node by its ID.
+**Focus Override**  
+This setting allows control of the focused node outside the widget. The widget only watches for when the value changes and then tries to find the matching node by its ID.  
+A node can also be focused outside the widget using a JavaScript action with `window.reactFlowFocus('NodeId')`.
 
 Note: It is an expression, not an attribute. It will NOT get updated with the current selection.
 
