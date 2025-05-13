@@ -11,6 +11,7 @@ export function preview(props: ReactFlowTsPreviewProps): ReactElement {
             name={"preview"}
             class={props.class}
             style={props.styleObject}
+            lockDragging={false}
             setLockDragging={newDraggable => console.debug(`draggable now ${newDraggable}`)}
             // Nodes
             nodes={[

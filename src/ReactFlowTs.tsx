@@ -172,6 +172,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             class={props.class}
             style={props.style}
             tabIndex={props.tabIndex}
+            lockDragging={lockDragging}
             setLockDragging={setLockDragging}
             // Nodes
             nodes={nodes}

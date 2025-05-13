@@ -11,6 +11,7 @@ export interface FlowProviderProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
+    lockDragging: boolean;
     setLockDragging: (newDraggable: boolean) => void;
 
     // Nodes

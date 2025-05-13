@@ -25,6 +25,7 @@ const nodeTypes = {
 export interface FlowProps {
     // System
     tabIndex?: number;
+    lockDragging: boolean;
     setLockDragging: (newDraggable: boolean) => void;
 
     // Nodes
@@ -85,7 +86,8 @@ const Flow = (props: FlowProps): ReactElement => {
                 });
                 setTimeout(() => {
                     // after the library focuses the node, focus the first available nav button
-                    (document.querySelector(".custom-node.selected .btn") as any).focus();
+                    const element = document.querySelector(".custom-node.selected .btn") as any;
+                    if (element) element.focus();
                 }, 750);
                 return true;
             }
@@ -154,10 +156,11 @@ const Flow = (props: FlowProps): ReactElement => {
             panOnScroll
             snapGrid={props.snapGrid}
             snapToGrid={props.snapToGrid}
+            nodesDraggable={props.lockDragging === false}
         >
             <Controls
                 position="top-right"
-                onInteractiveChange={newIntractable => props.setLockDragging(newIntractable)}
+                onInteractiveChange={newIntractable => props.setLockDragging(!newIntractable)}
             />
             <MiniMap zoomable pannable nodeStrokeWidth={5} nodeClassName={node => node.className || ""} />
             <Background
