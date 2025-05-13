@@ -1,38 +1,80 @@
 ## React Flow for Mendix
 Implementation of the [React Flow library](https://reactflow.dev/) for Mendix
 
+![demo](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo.png)  
+
 ## Features
 - Display linked data with dynamic content
-- The selected node can be shown in a Data View using the 'List to Widget' option
-- Events for clicking a specific node or edge
+- Control over the positions and sizes of each node
+- Ability to have nodes draggable (changes not saved)
+- Nodes can be set to snap to a grid
+- Provides an area to add custom buttons near a node (AKA Toolbar)
+- Buttons to navigate through the nodes
 - Ability to focus a specific node from outside the widget
+- The selected node can be shown in a Data View using the 'List to Widget' option ([Mendix 10.7+](https://docs.mendix.com/apidocs-mxsdk/apidocs/pluggable-widgets-property-types/#selection))
+- Can set which side of a node each line starts and ends at
+- Control over the type of Arrow, line, or curve for every line independently
+- Dynamic CSS classnames for each node & edge
+- Can set the Default zoom
+- Background is configurable with Crosses, Dots, or Lines. The size and spacing of each are also customizable.
+- Events for clicking a specific node or edge
+- Event for when a node is dragged
 - Provides an area to display custom loading content, like a [spinner](https://marketplace.mendix.com/link/component/204096)
+
 
 ## Limitations
 - The widget only handles the rendering of nodes. The developer must write their own logic to position the nodes.
 - Dragging nodes is allowed, but the new positions cannot be saved.
+- Only 1 widget should be rendered per page
+- The widget CANNOT be in a non-default tab of a tab container.
 
 ## Future Enhancements
-- Provide more control over which side of a node the edges connect to
 - Add an on-drag callback for setting position values to the node using [10.15+ Action Variables](https://docs.mendix.com/apidocs-mxsdk/apidocs/pluggable-widgets-property-types/#studio-pro-ui-10)
 
 ## Data Structures
-The following is the MINIMUM recommended data structure. 
+The following is the MINIMUM recommended data structure.  
+![domainMin](https://github.com/bsgriggs/mendix-react-flow/blob/media/domainMin.png)  
+### React Flow Helper
+1. A helper object for applying scaling and providing a way to store all nodes and edges.
+2. Integers for scaling X & Y positions. See Node #3 below.
+3. A string attribute for setting a particular Node ID to focus by default and/or changing the current focus.
+### Node
+A node is one cell in the chart.
+1. An ID that is unique across ALL nodes.
+2. A user-friendly description of the node.
+3. The X and Y positions of the node. The recommendation is to have these values as a basic coordinate system. For example, (0, 1) or (2, 4). Then, the helper will scale the basic coordinates when passed to the widget, like (300, 175). This is so the coordinates are easier to calculate in Studio Pro. The node directly below (2, 1) is just y+1 (2, 2), and then will scale to (600, 175) and (600, 350).
 
-It can be expanded easily to include more data specific to the use case. For example, Nodes could have Latitude and Longitude attributes with a List to Widget Data View to display a map for the selected node.
+### Edge
+Defines the lines that connect 2 nodes, where those connections touch each node, and what that line looks like.
+1. The label is optional. It displays text at the mid-point of the line.
+2. The Source and Target Node IDs must match two existing Node ID's exactly.
+
+### Expanding the Data Structure
+The node entity can be expanded to include more data specific to the use case. For example, Nodes could have Latitude and Longitude attributes with a List to Widget Data View to display a map for the selected node.
+
+Both Node and Edge can be extended to include more control for each node and edge. Here are just a few examples. Many of the widget's settings are designed to be easily controllable by an attribute.  
+![domainFull](https://github.com/bsgriggs/mendix-react-flow/blob/media/domainFull.png)  
 
 ## Usage
 The widget has the following properties panels.
 ### Nodes
 ![nodes](https://github.com/bsgriggs/mendix-react-flow/blob/media/nodes.png)  
+**Data**  
 The Nodes List can be any object. This object will be used to evaluate ALL the other expressions on this tab.  
-_Note: The Node ID MUST BE UNIQUE across all nodes._  
-
-**Size**  
-Nodes will be 300 pixels wide by default. Their height will automatically expand to fit the custom content. The width can be overridden using CSS on the class `.mendix-react-flow .custom-node`.
+The Node ID MUST BE UNIQUE across all nodes. The Label should be a user-friendly description of the node. It is displayed as the title of the navigation buttons
 
 **Positions**  
-The recommendation is to have the Node objects store a simple coordinate system and then apply scaling in the widget. This makes it easier to manage the positions, and adjustments to the scale can be done all in one place. For example, the nodes could have positions (0,0) (0,1) (1,2) and scaling (400, 175), resulting in the final positions (0,0) (0, 175) and (400, 350).  
+The recommendation is to have the Node objects store a simple coordinate system and then apply scaling in the widget. This makes it easier to manage the positions, and adjustments to the scale can be done all in one place. For example, the nodes could have positions (0,0) (0,1) (1,2) and scaling (400, 175), resulting in the final positions (0,0) (0, 175), and (400, 350).  
+
+**Size**  
+These are OPTIONAL fixed-width and fixed-height values. If no value is provided, the library uses fit-content for each node.  
+
+**Grid Snapping**  
+When the user drags a node, the node can be set to snap to a grid.  
+- With 'Same as Background', the snapping will follow the `Customization -> Background -> Gap` property.
+- With 'Custom', two new X and Y gap properties will display to define the grid to snap on:
+
+![nodes_GridSnap](https://github.com/bsgriggs/mendix-react-flow/blob/media/nodes_GridSnap.png)  
 
 **Focus override**  
 This setting allows control of the focused node outside the widget. The widget only watches for when the value changes and then tries to find the matching node by its ID.
