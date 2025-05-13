@@ -119,6 +119,9 @@ export function getProperties(
             hidePropertiesIn(defaultProperties, _values, ["crossSize", "dotSize"]);
             break;
     }
+    if (_values.snapToGrid !== "CUSTOM") {
+        hidePropertiesIn(defaultProperties, _values, ["snapGridX", "snapGridY"]);
+    }
 
     return defaultProperties;
 }

@@ -25,6 +25,7 @@ const nodeTypes = {
 export interface FlowProps {
     // System
     tabIndex?: number;
+    setLockDragging: (newDraggable: boolean) => void;
 
     // Nodes
     nodes: Node[];
@@ -37,6 +38,8 @@ export interface FlowProps {
     defaultViewType: DefaultViewTypeEnum;
     defaultZoom: number;
     navZoom: number;
+    snapToGrid: boolean;
+    snapGrid: [number, number];
 
     //Background
     backgroundType: BackgroundTypeEnum;
@@ -150,8 +153,13 @@ const Flow = (props: FlowProps): ReactElement => {
             onNodeDragStop={(_, draggedNode) => props.onDragNode(draggedNode)}
             onEdgeClick={(_, clickedEdge) => props.onClickEdge(clickedEdge)}
             panOnScroll
+            snapGrid={props.snapGrid}
+            snapToGrid={props.snapToGrid}
         >
-            <Controls showInteractive={false} position="top-right" />
+            <Controls
+                position="top-right"
+                onInteractiveChange={newIntractable => props.setLockDragging(newIntractable)}
+            />
             <MiniMap zoomable pannable nodeStrokeWidth={5} nodeClassName={node => node.className || ""} />
             <Background
                 variant={backgroundVariant}

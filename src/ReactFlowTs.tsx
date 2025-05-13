@@ -1,4 +1,4 @@
-import { ReactElement, createElement, useCallback, useMemo } from "react";
+import { ReactElement, createElement, useCallback, useMemo, useState } from "react";
 import FlowProvider from "./components/FlowProvider";
 import { Edge, Node, MarkerType } from "@xyflow/react";
 import { ValueStatus, ObjectItem } from "mendix";
@@ -8,6 +8,8 @@ import "./ui/ReactFlowTs.css";
 import classNames from "classnames";
 
 export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
+    const [lockDragging, setLockDragging] = useState<boolean>(false);
+
     const edges = useMemo(
         () =>
             props.edges.status === ValueStatus.Available && props.edges.items
@@ -72,7 +74,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                           height: height ? Number(height) : undefined,
                           selected: props.selectedNode.selection === nodeObj,
                           deletable: false,
-                          draggable: props.allowDragging.get(nodeObj).value === true,
+                          draggable: lockDragging ? false : props.allowDragging.get(nodeObj).value === true,
                           className: props.nodeClassName?.get(nodeObj).value,
                           data: {
                               label: props.nodeLabel.get(nodeObj).value,
@@ -155,6 +157,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             class={props.class}
             style={props.style}
             tabIndex={props.tabIndex}
+            setLockDragging={setLockDragging}
             // Nodes
             nodes={nodes}
             focusedNodeOverride={props.focusedNodeOverride?.value}
@@ -166,6 +169,14 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             defaultViewType={props.defaultViewType}
             defaultZoom={Number(props.defaultZoom.value)}
             navZoom={Number(props.navZoom.value)}
+            snapToGrid={props.snapToGrid !== "OFF"}
+            snapGrid={
+                props.snapToGrid === "OFF"
+                    ? [50, 50]
+                    : props.snapToGrid === "BACKGROUND"
+                    ? [Number(props.backgroundGap.value || 50), Number(props.backgroundGap.value || 50)]
+                    : [Number(props.snapGridX.value), Number(props.snapGridY.value)]
+            }
             //Background
             backgroundGap={Number(props.backgroundGap.value || 50)}
             backgroundType={props.backgroundType}

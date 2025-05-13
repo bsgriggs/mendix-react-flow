@@ -11,6 +11,7 @@ export function preview(props: ReactFlowTsPreviewProps): ReactElement {
             name={"preview"}
             class={props.class}
             style={props.styleObject}
+            setLockDragging={newDraggable => console.debug(`draggable now ${newDraggable}`)}
             // Nodes
             nodes={[
                 {
@@ -39,6 +40,8 @@ export function preview(props: ReactFlowTsPreviewProps): ReactElement {
             defaultViewType="ZOOM"
             defaultZoom={1}
             navZoom={1}
+            snapToGrid={false}
+            snapGrid={[50, 50]}
             // Background
             backgroundGap={50}
             backgroundType={props.backgroundType}

@@ -7,6 +7,8 @@ import { ComponentType, CSSProperties, ReactNode } from "react";
 import { DynamicValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue } from "mendix";
 import { Big } from "big.js";
 
+export type SnapToGridEnum = "OFF" | "BACKGROUND" | "CUSTOM";
+
 export type DefaultViewTypeEnum = "ZOOM" | "FULL";
 
 export type BackgroundTypeEnum = "CROSSES" | "DOTS" | "LINES";
@@ -25,6 +27,9 @@ export interface ReactFlowTsContainerProps {
     nodePosY: ListExpressionValue<Big>;
     nodeWidth?: ListExpressionValue<Big>;
     nodeHeight?: ListExpressionValue<Big>;
+    snapToGrid: SnapToGridEnum;
+    snapGridX: DynamicValue<Big>;
+    snapGridY: DynamicValue<Big>;
     nodeClassName?: ListExpressionValue<string>;
     focusedNodeOverride?: DynamicValue<string>;
     allowDragging: ListExpressionValue<boolean>;
@@ -75,6 +80,9 @@ export interface ReactFlowTsPreviewProps {
     nodePosY: string;
     nodeWidth: string;
     nodeHeight: string;
+    snapToGrid: SnapToGridEnum;
+    snapGridX: string;
+    snapGridY: string;
     nodeClassName: string;
     focusedNodeOverride: string;
     allowDragging: string;

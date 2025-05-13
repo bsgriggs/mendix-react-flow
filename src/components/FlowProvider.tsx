@@ -11,6 +11,7 @@ export interface FlowProviderProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
+    setLockDragging: (newDraggable: boolean) => void;
 
     // Nodes
     nodes: Node[];
@@ -30,6 +31,8 @@ export interface FlowProviderProps {
     backgroundType: BackgroundTypeEnum;
     backgroundGap: number;
     backgroundSize: number;
+    snapToGrid: boolean;
+    snapGrid: [number, number];
 
     // Actions
     onClickNode: (clickedNode: Node) => void;

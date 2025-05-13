@@ -63,6 +63,27 @@
                     <returnType type="Integer" />
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Grid Snapping">
+                <property key="snapToGrid" type="enumeration" required="true" defaultValue="OFF">
+                    <caption>Snap to grid</caption>
+                    <description>Note: only matters if Nodes are draggable</description>
+                    <enumerationValues>
+                        <enumerationValue key="OFF">Off</enumerationValue>
+                        <enumerationValue key="BACKGROUND">Same as background</enumerationValue>
+                        <enumerationValue key="CUSTOM">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="snapGridX" type="expression" required="true" defaultValue="50">
+                    <caption>Snap grid x</caption>
+                    <description>Snap nodes to the grid every X units</description>
+                    <returnType type="Integer" />
+                </property>
+                <property key="snapGridY" type="expression" required="true" defaultValue="50">
+                    <caption>Snap grid y</caption>
+                    <description>Snap nodes to the grid every Y units</description>
+                    <returnType type="Integer" />
+                </property>
+            </propertyGroup>
             <propertyGroup caption="Style">
                 <property key="nodeClassName" type="expression" required="false" dataSource="nodes">
                     <caption>Dynamic class</caption>
@@ -142,7 +163,7 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
-        <propertyGroup caption="General Style">
+        <propertyGroup caption="Customization">
             <propertyGroup caption="Container Size">
                 <property key="containerWidth" type="expression" required="true"
                     defaultValue="'100%'">
@@ -182,38 +203,38 @@ Zoom - specify a default zoom value (starts at the top of the flow)</description
                     <returnType type="Decimal" />
                 </property>
             </propertyGroup>
-        </propertyGroup>
-        <propertyGroup caption="Background">
-            <property key="backgroundType" type="enumeration" required="true"
-                defaultValue="CROSSES">
-                <caption>Type</caption>
-                <description></description>
-                <enumerationValues>
-                    <enumerationValue key="CROSSES">Crosses</enumerationValue>
-                    <enumerationValue key="DOTS">Dots</enumerationValue>
-                    <enumerationValue key="LINES">Lines</enumerationValue>
-                </enumerationValues>
-            </property>
-            <property key="backgroundGap" type="expression" required="true" defaultValue="50">
-                <caption>Gap</caption>
-                <description></description>
-                <returnType type="Integer" />
-            </property>
-            <property key="dotSize" type="expression" required="true" defaultValue="1">
-                <caption>Dot size</caption>
-                <description></description>
-                <returnType type="Integer" />
-            </property>
-            <property key="crossSize" type="expression" required="true" defaultValue="6">
-                <caption>Cross size</caption>
-                <description></description>
-                <returnType type="Integer" />
-            </property>
-            <property key="lineWidth" type="expression" required="true" defaultValue="1">
-                <caption>Line width</caption>
-                <description></description>
-                <returnType type="Integer" />
-            </property>
+            <propertyGroup caption="Background">
+                <property key="backgroundType" type="enumeration" required="true"
+                    defaultValue="CROSSES">
+                    <caption>Type</caption>
+                    <description></description>
+                    <enumerationValues>
+                        <enumerationValue key="CROSSES">Crosses</enumerationValue>
+                        <enumerationValue key="DOTS">Dots</enumerationValue>
+                        <enumerationValue key="LINES">Lines</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="backgroundGap" type="expression" required="true" defaultValue="50">
+                    <caption>Gap</caption>
+                    <description></description>
+                    <returnType type="Integer" />
+                </property>
+                <property key="dotSize" type="expression" required="true" defaultValue="1">
+                    <caption>Dot size</caption>
+                    <description></description>
+                    <returnType type="Integer" />
+                </property>
+                <property key="crossSize" type="expression" required="true" defaultValue="6">
+                    <caption>Cross size</caption>
+                    <description></description>
+                    <returnType type="Integer" />
+                </property>
+                <property key="lineWidth" type="expression" required="true" defaultValue="1">
+                    <caption>Line width</caption>
+                    <description></description>
+                    <returnType type="Integer" />
+                </property>
+            </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Events">
             <property key="onClickNode" type="action" required="false" dataSource="nodes">
