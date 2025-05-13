@@ -68,6 +68,7 @@ export default memo((props: CustomNodeProps): ReactElement => {
         updateNodeInternals(props.id);
         return newNodes;
     }, [edges, nodes, props.id, setTargetCounts, defaultHandleCounts]);
+
     const nodesSourcingThis: Node[] = useMemo(() => {
         const newNodes: Node[] = [];
         let newSourceCounts: IHandleCounts = structuredClone(defaultHandleCounts);

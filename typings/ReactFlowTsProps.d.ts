@@ -49,6 +49,8 @@ export interface ReactFlowTsContainerProps {
     onClickNode?: ListActionValue;
     onDragNode?: ListActionValue;
     onClickEdge?: ListActionValue;
+    nodeAriaLabel?: ListExpressionValue<string>;
+    edgeAriaLabel?: ListExpressionValue<string>;
 }
 
 export interface ReactFlowTsPreviewProps {
@@ -94,4 +96,6 @@ export interface ReactFlowTsPreviewProps {
     onClickNode: {} | null;
     onDragNode: {} | null;
     onClickEdge: {} | null;
+    nodeAriaLabel: string;
+    edgeAriaLabel: string;
 }

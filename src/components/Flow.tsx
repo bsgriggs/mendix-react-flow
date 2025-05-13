@@ -55,7 +55,6 @@ const Flow = (props: FlowProps): ReactElement => {
     useEffect(() => setEdges(props.edges), [props.edges, setEdges]);
     const [retryAttempts, setRetryAttempts] = useState<number>(0);
     const [focusOverride, setFocusOverride] = useState<string>("");
-    const [draggable, setDraggable] = useState<boolean>(true);
 
     const store = useStoreApi();
     const { resetSelectedElements, addSelectedNodes } = store.getState();
@@ -82,7 +81,7 @@ const Flow = (props: FlowProps): ReactElement => {
                 setTimeout(() => {
                     // after the library focuses the node, focus the first available nav button
                     (document.querySelector(".custom-node.selected .btn") as any).focus();
-                }, 550);
+                }, 650);
 
                 return true;
             }
@@ -149,12 +148,8 @@ const Flow = (props: FlowProps): ReactElement => {
             onNodeDragStop={(_, draggedNode) => props.onDragNode(draggedNode)}
             onEdgeClick={(_, clickedEdge) => props.onClickEdge(clickedEdge)}
             panOnScroll
-            draggable={draggable}
         >
-            <Controls
-                onInteractiveChange={newInteractiveState => setDraggable(newInteractiveState)}
-                position="top-right"
-            />
+            <Controls showInteractive={false} position="top-right" />
             <MiniMap zoomable pannable nodeStrokeWidth={5} nodeClassName={node => node.className || ""} />
             <Background variant={backgroundVariant} gap={props.backgroundGap} />
         </ReactFlow>

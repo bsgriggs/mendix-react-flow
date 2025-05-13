@@ -220,6 +220,18 @@ Zoom - specify a default zoom value (starts at the top of the flow)</description
                 <description></description>
             </property>
         </propertyGroup>
+        <propertyGroup caption="Accessibility">
+            <property key="nodeAriaLabel" type="expression" required="false" dataSource="nodes">
+                <caption>Node aria label</caption>
+                <description></description>
+                <returnType type="String" />
+            </property>
+            <property key="edgeAriaLabel" type="expression" required="false" dataSource="edges">
+                <caption>Edge aria label</caption>
+                <description></description>
+                <returnType type="String" />
+            </property>
+        </propertyGroup>
         <propertyGroup caption="Common">
             <propertyGroup caption="Common">
                 <systemProperty key="Name" />

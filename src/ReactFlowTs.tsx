@@ -35,6 +35,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                               objItem: edgeObj
                           },
                           label: props.edgeLabel?.get(edgeObj).value,
+                          ariaLabel: props.edgeAriaLabel?.get(edgeObj).value,
                           className: props.edgeClassName?.get(edgeObj).value
                       } as Edge;
                   })
@@ -49,7 +50,8 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             props.targetLineSide,
             props.sourceLineSide,
             props.arrowType,
-            props.curveType
+            props.curveType,
+            props.edgeAriaLabel
         ]
     );
 
@@ -76,7 +78,8 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                               label: props.nodeLabel.get(nodeObj).value,
                               objItem: nodeObj,
                               children: props.nodeContent.get(nodeObj)
-                          }
+                          },
+                          ariaLabel: props.nodeAriaLabel?.get(nodeObj).value
                       } as Node;
                   })
                 : [],
@@ -91,7 +94,8 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             props.nodeLabel,
             props.allowDragging,
             props.nodeWidth,
-            props.nodeHeight
+            props.nodeHeight,
+            props.nodeAriaLabel
         ]
     );
 
