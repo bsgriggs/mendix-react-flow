@@ -41,7 +41,7 @@ export interface FlowProps {
     snapToGrid: boolean;
     snapGrid: [number, number];
 
-    //Background
+    // Background
     backgroundType: BackgroundTypeEnum;
     backgroundGap: number;
     backgroundSize: number;
@@ -86,14 +86,13 @@ const Flow = (props: FlowProps): ReactElement => {
                 setTimeout(() => {
                     // after the library focuses the node, focus the first available nav button
                     (document.querySelector(".custom-node.selected .btn") as any).focus();
-                }, 650);
-
+                }, 750);
                 return true;
             }
             return false;
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [fitView, props.nodes, Clamp, resetSelectedElements, addSelectedNodes, props.navZoom]
+        [fitView, props.nodes, Clamp, resetSelectedElements, addSelectedNodes, props.navZoom, props.onClickNode]
     ); // props.onClickNode cannot be in dependency arrays, infinite loop
 
     useEffect(() => {

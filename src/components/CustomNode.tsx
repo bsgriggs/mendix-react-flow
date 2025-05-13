@@ -1,16 +1,7 @@
-import {
-    Handle,
-    Position,
-    useEdges,
-    useNodes,
-    Node,
-    XYPosition,
-    useUpdateNodeInternals,
-    NodeToolbar
-} from "@xyflow/react";
+import { Handle, Position, useEdges, useNodes, Node, useUpdateNodeInternals, NodeToolbar } from "@xyflow/react";
 import classNames from "classnames";
-import { ReactElement, createElement, memo, useMemo, MouseEvent, useState } from "react";
-import MxIcon from "./mxIcon";
+import { ReactElement, createElement, memo, MouseEvent, useState, useEffect, Fragment } from "react";
+import NavButton from "./NavButton";
 
 export interface CustomNodeProps {
     id: string;
@@ -19,87 +10,69 @@ export interface CustomNodeProps {
     draggable: boolean;
     isConnectable: boolean;
     selected: boolean;
-    positionAbsoluteX: number;
-    positionAbsoluteY: number;
 }
 
-interface IHandleCounts {
-    top: number;
-    right: number;
-    bottom: number;
-    left: number;
+interface IHandles {
+    top: Node[];
+    right: Node[];
+    bottom: Node[];
+    left: Node[];
 }
 
-const defaultHandleCounts: IHandleCounts = {
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
+const defaultHandles: IHandles = {
+    top: [],
+    right: [],
+    bottom: [],
+    left: []
 };
 
-const determineNodeDirectionIcon = (fromPos: XYPosition, toPos: XYPosition): string =>
-    fromPos.x > toPos.x
-        ? "mx-icon-chevron-left"
-        : fromPos.x < toPos.x
-        ? "mx-icon-chevron-right"
-        : fromPos.y > toPos.y
-        ? "mx-icon-chevron-up"
-        : fromPos.y < toPos.y
-        ? "mx-icon-chevron-down"
-        : "mx-icon-question-circle";
-
 export default memo((props: CustomNodeProps): ReactElement => {
-    const [sourceCounts, setSourceCounts] = useState<IHandleCounts>(defaultHandleCounts);
-    const [targetCounts, setTargetCounts] = useState<IHandleCounts>(defaultHandleCounts);
+    const [sourceHandles, setSourceHandles] = useState<IHandles>(defaultHandles);
+    const [targetHandles, setTargetHandles] = useState<IHandles>(defaultHandles);
     const edges = useEdges();
     const nodes = useNodes();
     const updateNodeInternals = useUpdateNodeInternals();
 
-    const nodesTargetingThis: Node[] = useMemo(() => {
-        const newNodes: Node[] = [];
-        let newTargetCount: IHandleCounts = structuredClone(defaultHandleCounts);
+    useEffect(() => {
+        const newSourceHandle: IHandles = structuredClone(defaultHandles);
         edges
             .filter(edge => edge.target === props.id)
             .forEach(edge => {
                 const sourceNode = nodes.find(node => node.id === edge.source);
                 if (sourceNode) {
-                    newNodes.push(sourceNode);
-                    newTargetCount = {
-                        top: edge.targetHandle === "target-Top" ? newTargetCount.top + 1 : newTargetCount.top,
-                        right: edge.targetHandle === "target-Right" ? newTargetCount.right + 1 : newTargetCount.right,
-                        bottom:
-                            edge.targetHandle === "target-Bottom" ? newTargetCount.bottom + 1 : newTargetCount.bottom,
-                        left: edge.targetHandle === "target-Left" ? newTargetCount.left + 1 : newTargetCount.left
-                    };
+                    if (edge.targetHandle === "target-Top") {
+                        newSourceHandle.top.push(sourceNode);
+                    } else if (edge.targetHandle === "target-Right") {
+                        newSourceHandle.right.push(sourceNode);
+                    } else if (edge.targetHandle === "target-Bottom") {
+                        newSourceHandle.bottom.push(sourceNode);
+                    } else if (edge.targetHandle === "target-Left") {
+                        newSourceHandle.left.push(sourceNode);
+                    }
                 }
             });
-        setTargetCounts(newTargetCount);
-        updateNodeInternals(props.id);
-        return newNodes;
-    }, [edges, nodes, props.id, setTargetCounts, defaultHandleCounts]);
+        setSourceHandles(newSourceHandle);
 
-    const nodesSourcingThis: Node[] = useMemo(() => {
-        const newNodes: Node[] = [];
-        let newSourceCounts: IHandleCounts = structuredClone(defaultHandleCounts);
+        const newTargetHandle: IHandles = structuredClone(defaultHandles);
         edges
             .filter(edge => edge.source === props.id)
             .forEach(edge => {
                 const targetNode = nodes.find(node => node.id === edge.target);
                 if (targetNode) {
-                    newNodes.push(targetNode);
-                    newSourceCounts = {
-                        top: edge.sourceHandle === "source-Top" ? newSourceCounts.top + 1 : newSourceCounts.top,
-                        right: edge.sourceHandle === "source-Right" ? newSourceCounts.right + 1 : newSourceCounts.right,
-                        bottom:
-                            edge.sourceHandle === "source-Bottom" ? newSourceCounts.bottom + 1 : newSourceCounts.bottom,
-                        left: edge.sourceHandle === "source-Left" ? newSourceCounts.left + 1 : newSourceCounts.left
-                    };
+                    if (edge.sourceHandle === "source-Top") {
+                        newTargetHandle.top.push(targetNode);
+                    } else if (edge.sourceHandle === "source-Right") {
+                        newTargetHandle.right.push(targetNode);
+                    } else if (edge.sourceHandle === "source-Bottom") {
+                        newTargetHandle.bottom.push(targetNode);
+                    } else if (edge.sourceHandle === "source-Left") {
+                        newTargetHandle.left.push(targetNode);
+                    }
                 }
             });
-        setSourceCounts(newSourceCounts);
+        setTargetHandles(newTargetHandle);
         updateNodeInternals(props.id);
-        return newNodes;
-    }, [edges, nodes, props.id, setSourceCounts, defaultHandleCounts, updateNodeInternals]);
+    }, [edges, nodes, props.id, updateNodeInternals]);
 
     const handleClickNav = (event: MouseEvent<HTMLButtonElement>, nodeId: string): void => {
         event.stopPropagation(); // prevent clicking the button from selecting THIS node
@@ -108,72 +81,117 @@ export default memo((props: CustomNodeProps): ReactElement => {
 
     return (
         <div className={classNames("custom-node", { selected: props.selected }, { nodrag: !props.draggable })}>
-            {targetCounts.top > 0 && (
-                <Handle id="target-Top" type="target" position={Position.Top} isConnectable={false} />
-            )}
-            {targetCounts.right > 0 && (
-                <Handle id="target-Right" type="target" position={Position.Right} isConnectable={false} />
-            )}
-            {targetCounts.bottom > 0 && (
-                <Handle id="target-Bottom" type="target" position={Position.Bottom} isConnectable={false} />
-            )}
-            {targetCounts.left > 0 && (
-                <Handle id="target-Left" type="target" position={Position.Left} isConnectable={false} />
-            )}
-
-            {props.selected && (
-                <div className="target-btns">
-                    {nodesTargetingThis.map(node => (
-                        <button
-                            key={node.id}
-                            className="btn mx-button"
-                            title={`Navigate to ${props.data.label}`}
-                            onClick={event => handleClickNav(event, node.id)}
-                        >
-                            <MxIcon
-                                className={`mx-icon-lined ${determineNodeDirectionIcon(
-                                    { x: props.positionAbsoluteX, y: props.positionAbsoluteY },
-                                    node.position
-                                )}`}
-                                isGlyph={false}
-                            />
-                        </button>
-                    ))}
-                </div>
-            )}
+            <Handle
+                id="target-Top"
+                style={{ opacity: targetHandles.top.length > 0 ? 1 : 0 }}
+                type="target"
+                position={Position.Top}
+                isConnectable={false}
+            />
+            <Handle
+                id="target-Right"
+                style={{ opacity: targetHandles.right.length > 0 ? 1 : 0 }}
+                type="target"
+                position={Position.Right}
+                isConnectable={false}
+            />
+            <Handle
+                id="target-Bottom"
+                style={{ opacity: targetHandles.bottom.length > 0 ? 1 : 0 }}
+                type="target"
+                position={Position.Bottom}
+                isConnectable={false}
+            />
+            <Handle
+                id="target-Left"
+                style={{ opacity: targetHandles.left.length > 0 ? 1 : 0 }}
+                type="target"
+                position={Position.Left}
+                isConnectable={false}
+            />
 
             <div className="node-content">{props.data.children}</div>
+
+            <Handle
+                id="source-Top"
+                style={{ opacity: sourceHandles.top.length > 0 ? 1 : 0 }}
+                type="source"
+                position={Position.Top}
+                isConnectable={false}
+            />
+            <Handle
+                id="source-Right"
+                style={{ opacity: sourceHandles.right.length > 0 ? 1 : 0 }}
+                type="source"
+                position={Position.Right}
+                isConnectable={false}
+            />
+            <Handle
+                id="source-Bottom"
+                style={{ opacity: sourceHandles.bottom.length > 0 ? 1 : 0 }}
+                type="source"
+                position={Position.Bottom}
+                isConnectable={false}
+            />
+            <Handle
+                id="source-Left"
+                style={{ opacity: sourceHandles.left.length > 0 ? 1 : 0 }}
+                type="source"
+                position={Position.Left}
+                isConnectable={false}
+            />
+
             {props.selected && (
-                <div className="source-btns">
-                    {nodesSourcingThis.map(node => (
-                        <button
-                            key={node.id}
-                            className="btn mx-button"
-                            title={`Navigate to ${props.data.label}`}
-                            onClick={event => handleClickNav(event, node.id)}
-                        >
-                            <MxIcon
-                                className={`mx-icon-lined ${determineNodeDirectionIcon(
-                                    { x: props.positionAbsoluteX, y: props.positionAbsoluteY },
-                                    node.position
-                                )}`}
-                                isGlyph={false}
-                            />
-                        </button>
-                    ))}
-                </div>
-            )}
-            {sourceCounts.top > 0 && (
-                <Handle id="source-Top" type="source" position={Position.Top} isConnectable={false} />
-            )}
-            {sourceCounts.right > 0 && (
-                <Handle id="source-Right" type="source" position={Position.Right} isConnectable={false} />
-            )}
-            {sourceCounts.bottom > 0 && (
-                <Handle id="source-Bottom" type="source" position={Position.Bottom} isConnectable={false} />
-            )}
-            {sourceCounts.left > 0 && (
-                <Handle id="source-Left" type="source" position={Position.Left} isConnectable={false} />
+                <Fragment>
+                    {targetHandles.top.length + sourceHandles.top.length > 0 && (
+                        <div className="nav-button-array top">
+                            {targetHandles.top.concat(sourceHandles.top).map(node => (
+                                <NavButton
+                                    key={node.id}
+                                    node={node}
+                                    iconClassName="mx-icon-chevron-up"
+                                    onClick={handleClickNav}
+                                />
+                            ))}
+                        </div>
+                    )}
+                    {targetHandles.right.length + sourceHandles.right.length > 0 && (
+                        <div className="nav-button-array right">
+                            {targetHandles.right.concat(sourceHandles.right).map(node => (
+                                <NavButton
+                                    key={node.id}
+                                    node={node}
+                                    iconClassName="mx-icon-chevron-right"
+                                    onClick={handleClickNav}
+                                />
+                            ))}
+                        </div>
+                    )}
+                    {targetHandles.bottom.length + sourceHandles.bottom.length > 0 && (
+                        <div className="nav-button-array bottom">
+                            {targetHandles.bottom.concat(sourceHandles.bottom).map(node => (
+                                <NavButton
+                                    key={node.id}
+                                    node={node}
+                                    iconClassName="mx-icon-chevron-down"
+                                    onClick={handleClickNav}
+                                />
+                            ))}
+                        </div>
+                    )}
+                    {targetHandles.left.length + sourceHandles.left.length > 0 && (
+                        <div className="nav-button-array left">
+                            {targetHandles.left.concat(sourceHandles.left).map(node => (
+                                <NavButton
+                                    key={node.id}
+                                    node={node}
+                                    iconClassName="mx-icon-chevron-left"
+                                    onClick={handleClickNav}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </Fragment>
             )}
             <NodeToolbar
                 isVisible={

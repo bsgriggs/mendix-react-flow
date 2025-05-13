@@ -55,5 +55,5 @@ export function preview(props: ReactFlowTsPreviewProps): ReactElement {
 }
 
 export function getPreviewCss(): string {
-    return require("./ui/ReactFlowTs.css");
+    return require("./ui/ReactFlowTs.scss");
 }

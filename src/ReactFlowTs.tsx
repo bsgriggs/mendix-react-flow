@@ -4,7 +4,7 @@ import { Edge, Node, MarkerType } from "@xyflow/react";
 import { ValueStatus, ObjectItem } from "mendix";
 import { ReactFlowTsContainerProps } from "../typings/ReactFlowTsProps";
 
-import "./ui/ReactFlowTs.css";
+import "./ui/ReactFlowTs.scss";
 import classNames from "classnames";
 
 export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
@@ -111,7 +111,8 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             props.toolbarGap,
             props.toolbarPosition,
             props.toolbarAlignment,
-            props.toolbarContent
+            props.toolbarContent,
+            lockDragging
         ]
     );
 
@@ -143,7 +144,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                 props.onDragNode.get(clickObj as ObjectItem).execute();
             }
         },
-        [props.onClickNode, props.selectedNode]
+        [props.onDragNode]
     );
 
     if (
@@ -191,7 +192,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                     ? [Number(props.backgroundGap.value || 50), Number(props.backgroundGap.value || 50)]
                     : [Number(props.snapGridX.value), Number(props.snapGridY.value)]
             }
-            //Background
+            // Background
             backgroundGap={Number(props.backgroundGap.value || 50)}
             backgroundType={props.backgroundType}
             backgroundSize={

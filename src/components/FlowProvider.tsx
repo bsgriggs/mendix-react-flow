@@ -27,7 +27,7 @@ export interface FlowProviderProps {
     defaultZoom: number;
     navZoom: number;
 
-    //Background
+    // Background
     backgroundType: BackgroundTypeEnum;
     backgroundGap: number;
     backgroundSize: number;

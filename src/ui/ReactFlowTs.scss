@@ -1,0 +1,55 @@
+:root {
+    --focus: #1491eb;
+    --node-outline: grey;
+}
+
+.mendix-react-flow {
+    .custom-node {
+        padding: 1rem;
+        border: 2px solid var(--focus);
+        border-radius: 1rem;
+        position: relative;
+        background-color: white;
+        &.selected {
+            outline: 3px solid var(--node-outline);
+            outline-offset: 4px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    }
+    .nav-button-array {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        position: absolute;
+        &.top {
+            top: -20px;
+            left: calc(50% - 16px);
+        }
+        &.right {
+            right: -20px;
+            top: calc(50% - 16px);
+        }
+        &.bottom {
+            bottom: -20px;
+            left: calc(50% - 16px);
+        }
+        &.left {
+            left: -20px;
+            top: calc(50% - 16px);
+        }
+        .nav-btn {
+            border-radius: 50%;
+            height: 32px;
+            width: 32px;
+            display: flex;
+            padding: 6px;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+    }
+    path.react-flow__edge-path {
+        stroke-width: 3;
+    }
+}
