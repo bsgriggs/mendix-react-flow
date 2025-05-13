@@ -84,7 +84,41 @@
                     <returnType type="Integer" />
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Style">
+            <propertyGroup caption="Node Toolbar">
+                <property key="toolbarType" type="enumeration" required="true" defaultValue="OFF">
+                    <caption>Toolbar type</caption>
+                    <description>When enabled, a section appear in Studio Pro for the toolbar's content.</description>
+                    <enumerationValues>
+                        <enumerationValue key="OFF">Off</enumerationValue>
+                        <enumerationValue key="SELECTED_ONLY">Selected Node Only</enumerationValue>
+                        <enumerationValue key="ALWAYS">Always</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="toolbarContent" type="widgets" required="true" dataSource="nodes">
+                    <caption>Toolbar content</caption>
+                    <description></description>
+                </property>
+                <property key="toolbarGap" type="expression" required="true" defaultValue="10"
+                    dataSource="nodes">
+                    <caption>Gap</caption>
+                    <description>Space between the Node and the toolbar content in pixels.</description>
+                    <returnType type="Integer" />
+                </property>
+                <property key="toolbarPosition" type="expression" required="true" dataSource="nodes"
+                    defaultValue="'Bottom'">
+                    <caption>Relative position</caption>
+                    <description>Must be one of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'.</description>
+                    <returnType type="String" />
+                </property>
+                <property key="toolbarAlignment" type="expression" required="true"
+                    dataSource="nodes"
+                    defaultValue="'center'">
+                    <caption>Alignment</caption>
+                    <description>Must be one of the exact strings: 'start', 'center', or 'end'.</description>
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Customization">
                 <property key="nodeClassName" type="expression" required="false" dataSource="nodes">
                     <caption>Dynamic class</caption>
                     <description></description>
@@ -137,7 +171,7 @@
                     <returnType type="String" />
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Style">
+            <propertyGroup caption="Customization">
                 <property key="edgeClassName" type="expression" required="false" dataSource="edges">
                     <caption>Dynamic class</caption>
                     <description></description>

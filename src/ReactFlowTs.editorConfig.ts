@@ -123,6 +123,15 @@ export function getProperties(
         hidePropertiesIn(defaultProperties, _values, ["snapGridX", "snapGridY"]);
     }
 
+    if (_values.toolbarType === "OFF") {
+        hidePropertiesIn(defaultProperties, _values, [
+            "toolbarContent",
+            "toolbarGap",
+            "toolbarPosition",
+            "toolbarAlignment"
+        ]);
+    }
+
     return defaultProperties;
 }
 

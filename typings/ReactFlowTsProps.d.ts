@@ -9,6 +9,8 @@ import { Big } from "big.js";
 
 export type SnapToGridEnum = "OFF" | "BACKGROUND" | "CUSTOM";
 
+export type ToolbarTypeEnum = "OFF" | "SELECTED_ONLY" | "ALWAYS";
+
 export type DefaultViewTypeEnum = "ZOOM" | "FULL";
 
 export type BackgroundTypeEnum = "CROSSES" | "DOTS" | "LINES";
@@ -30,6 +32,11 @@ export interface ReactFlowTsContainerProps {
     snapToGrid: SnapToGridEnum;
     snapGridX: DynamicValue<Big>;
     snapGridY: DynamicValue<Big>;
+    toolbarType: ToolbarTypeEnum;
+    toolbarContent: ListWidgetValue;
+    toolbarGap: ListExpressionValue<Big>;
+    toolbarPosition: ListExpressionValue<string>;
+    toolbarAlignment: ListExpressionValue<string>;
     nodeClassName?: ListExpressionValue<string>;
     focusedNodeOverride?: DynamicValue<string>;
     allowDragging: ListExpressionValue<boolean>;
@@ -83,6 +90,11 @@ export interface ReactFlowTsPreviewProps {
     snapToGrid: SnapToGridEnum;
     snapGridX: string;
     snapGridY: string;
+    toolbarType: ToolbarTypeEnum;
+    toolbarContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    toolbarGap: string;
+    toolbarPosition: string;
+    toolbarAlignment: string;
     nodeClassName: string;
     focusedNodeOverride: string;
     allowDragging: string;

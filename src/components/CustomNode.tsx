@@ -1,4 +1,13 @@
-import { Handle, Position, useEdges, useNodes, Node, XYPosition, useUpdateNodeInternals } from "@xyflow/react";
+import {
+    Handle,
+    Position,
+    useEdges,
+    useNodes,
+    Node,
+    XYPosition,
+    useUpdateNodeInternals,
+    NodeToolbar
+} from "@xyflow/react";
 import classNames from "classnames";
 import { ReactElement, createElement, memo, useMemo, MouseEvent, useState } from "react";
 import MxIcon from "./mxIcon";
@@ -166,6 +175,27 @@ export default memo((props: CustomNodeProps): ReactElement => {
             {sourceCounts.left > 0 && (
                 <Handle id="source-Left" type="source" position={Position.Left} isConnectable={false} />
             )}
+            <NodeToolbar
+                isVisible={
+                    props.data.toolbarType === "ALWAYS" ||
+                    (props.data.toolbarType === "SELECTED_ONLY" && props.selected)
+                }
+                position={
+                    props.data.toolbarPosition === "Top"
+                        ? Position.Top
+                        : props.data.toolbarPosition === "Right"
+                        ? Position.Right
+                        : props.data.toolbarPosition === "Bottom"
+                        ? Position.Bottom
+                        : props.data.toolbarPosition === "Left"
+                        ? Position.Left
+                        : Position.Bottom
+                }
+                offset={Number(props.data.toolbarGap)}
+                align={props.data.toolbarAlignment}
+            >
+                {props.data.toolbarContent}
+            </NodeToolbar>
         </div>
     );
 });

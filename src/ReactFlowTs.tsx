@@ -63,6 +63,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                 ? props.nodes.items.map(nodeObj => {
                       const width = props.nodeWidth ? props.nodeWidth.get(nodeObj).value : undefined;
                       const height = props.nodeHeight ? props.nodeHeight.get(nodeObj).value : undefined;
+
                       return {
                           id: props.nodeId.get(nodeObj).value,
                           type: "customNode",
@@ -79,7 +80,15 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                           data: {
                               label: props.nodeLabel.get(nodeObj).value,
                               objItem: nodeObj,
-                              children: props.nodeContent.get(nodeObj)
+                              children: props.nodeContent.get(nodeObj),
+                              toolbarType: props.toolbarType,
+                              toolbarGap: props.toolbarType !== "OFF" ? props.toolbarGap.get(nodeObj).value : undefined,
+                              toolbarPosition:
+                                  props.toolbarType !== "OFF" ? props.toolbarPosition.get(nodeObj).value : undefined,
+                              toolbarAlignment:
+                                  props.toolbarType !== "OFF" ? props.toolbarAlignment.get(nodeObj).value : undefined,
+                              toolbarContent:
+                                  props.toolbarType !== "OFF" ? props.toolbarContent.get(nodeObj) : undefined
                           },
                           ariaLabel: props.nodeAriaLabel?.get(nodeObj).value
                       } as Node;
@@ -97,7 +106,12 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             props.allowDragging,
             props.nodeWidth,
             props.nodeHeight,
-            props.nodeAriaLabel
+            props.nodeAriaLabel,
+            props.toolbarType,
+            props.toolbarGap,
+            props.toolbarPosition,
+            props.toolbarAlignment,
+            props.toolbarContent
         ]
     );
 
