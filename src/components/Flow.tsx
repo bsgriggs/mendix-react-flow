@@ -86,9 +86,9 @@ const Flow = (props: FlowProps): ReactElement => {
                 });
                 setTimeout(() => {
                     // after the library focuses the node, focus the first available nav button
-                    const element = document.querySelector(".custom-node.selected .btn") as any;
+                    const element = document.querySelector(".mendix-react-flow .nav-button-array .btn") as any;
                     if (element) element.focus();
-                }, 750);
+                }, 700);
                 return true;
             }
             return false;

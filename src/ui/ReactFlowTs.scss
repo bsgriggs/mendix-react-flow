@@ -21,23 +21,6 @@
         justify-content: center;
         align-items: center;
         gap: 0.5rem;
-        position: absolute;
-        &.top {
-            top: -20px;
-            left: calc(50% - 16px);
-        }
-        &.right {
-            right: -20px;
-            top: calc(50% - 16px);
-        }
-        &.bottom {
-            bottom: -20px;
-            left: calc(50% - 16px);
-        }
-        &.left {
-            left: -20px;
-            top: calc(50% - 16px);
-        }
         .nav-btn {
             border-radius: 50%;
             height: 32px;

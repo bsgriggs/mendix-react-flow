@@ -19,22 +19,24 @@ interface IHandles {
     left: Node[];
 }
 
-const defaultHandles: IHandles = {
+const DEFAULT_HANDLES: IHandles = {
     top: [],
     right: [],
     bottom: [],
     left: []
 };
 
+const NAV_BTN_OFFSET: number = -5;
+
 export default memo((props: CustomNodeProps): ReactElement => {
-    const [sourceHandles, setSourceHandles] = useState<IHandles>(defaultHandles);
-    const [targetHandles, setTargetHandles] = useState<IHandles>(defaultHandles);
+    const [sourceHandles, setSourceHandles] = useState<IHandles>(DEFAULT_HANDLES);
+    const [targetHandles, setTargetHandles] = useState<IHandles>(DEFAULT_HANDLES);
     const edges = useEdges();
     const nodes = useNodes();
     const updateNodeInternals = useUpdateNodeInternals();
 
     useEffect(() => {
-        const newSourceHandle: IHandles = structuredClone(defaultHandles);
+        const newSourceHandle: IHandles = structuredClone(DEFAULT_HANDLES);
         edges
             .filter(edge => edge.target === props.id)
             .forEach(edge => {
@@ -53,7 +55,7 @@ export default memo((props: CustomNodeProps): ReactElement => {
             });
         setSourceHandles(newSourceHandle);
 
-        const newTargetHandle: IHandles = structuredClone(defaultHandles);
+        const newTargetHandle: IHandles = structuredClone(DEFAULT_HANDLES);
         edges
             .filter(edge => edge.source === props.id)
             .forEach(edge => {
@@ -144,7 +146,7 @@ export default memo((props: CustomNodeProps): ReactElement => {
             {props.selected && (
                 <Fragment>
                     {targetHandles.top.length + sourceHandles.top.length > 0 && (
-                        <div className="nav-button-array top">
+                        <NodeToolbar position={Position.Top} offset={NAV_BTN_OFFSET} className="nav-button-array">
                             {targetHandles.top.concat(sourceHandles.top).map(node => (
                                 <NavButton
                                     key={node.id}
@@ -153,10 +155,10 @@ export default memo((props: CustomNodeProps): ReactElement => {
                                     onClick={handleClickNav}
                                 />
                             ))}
-                        </div>
+                        </NodeToolbar>
                     )}
                     {targetHandles.right.length + sourceHandles.right.length > 0 && (
-                        <div className="nav-button-array right">
+                        <NodeToolbar position={Position.Right} offset={NAV_BTN_OFFSET} className="nav-button-array">
                             {targetHandles.right.concat(sourceHandles.right).map(node => (
                                 <NavButton
                                     key={node.id}
@@ -165,10 +167,10 @@ export default memo((props: CustomNodeProps): ReactElement => {
                                     onClick={handleClickNav}
                                 />
                             ))}
-                        </div>
+                        </NodeToolbar>
                     )}
                     {targetHandles.bottom.length + sourceHandles.bottom.length > 0 && (
-                        <div className="nav-button-array bottom">
+                        <NodeToolbar position={Position.Bottom} offset={NAV_BTN_OFFSET} className="nav-button-array">
                             {targetHandles.bottom.concat(sourceHandles.bottom).map(node => (
                                 <NavButton
                                     key={node.id}
@@ -177,10 +179,10 @@ export default memo((props: CustomNodeProps): ReactElement => {
                                     onClick={handleClickNav}
                                 />
                             ))}
-                        </div>
+                        </NodeToolbar>
                     )}
                     {targetHandles.left.length + sourceHandles.left.length > 0 && (
-                        <div className="nav-button-array left">
+                        <NodeToolbar position={Position.Left} offset={NAV_BTN_OFFSET} className="nav-button-array left">
                             {targetHandles.left.concat(sourceHandles.left).map(node => (
                                 <NavButton
                                     key={node.id}
@@ -189,7 +191,7 @@ export default memo((props: CustomNodeProps): ReactElement => {
                                     onClick={handleClickNav}
                                 />
                             ))}
-                        </div>
+                        </NodeToolbar>
                     )}
                 </Fragment>
             )}
