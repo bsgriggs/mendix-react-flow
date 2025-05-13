@@ -99,33 +99,57 @@ Note: It is an expression, not an attribute. It will NOT get updated with the cu
 
 ### Edges
 ![edges](https://github.com/bsgriggs/mendix-react-flow/blob/media/edges.png)  
+**Data**  
 Data that defines which nodes connect to which other nodes and HOW they connect.  
 The Source and Target IDs MUST match an existing Node's ID.  
+The 'Line Side' properties define where the line is drawn on each node. For example, below the Source 'Step 1' has Line Side 'Right' and Target 'Step 1b' has Line Side 'Left'.  
+![demo_ArrowTypeLine](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_ArrowTypeLine.png)  
 
-**Line Type** - String expression that MUST be either "Solid" or "Dotted"
+**Customization**  
+- Dynamic Class: set a CSS class relative to each edge. Useful for making an edge a certain color based on its data.
+- Arrow Type: Either 'Solid' or 'Line'. Recommend creating an enumeration with these values to make it easier to manage in Studio Pro.
 
+| Solid | Line |  
+| ------------- | ------------- |  
+| ![demo_ArrowTypeSolid](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_ArrowTypeSolid.png)  | ![demo_ArrowTypeLine](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_ArrowTypeLine.png)  |  
+- Line Type: Either 'Solid' or 'Dotted'. 'Dotted' animates the dots in the direction of the arrow. Recommend creating an enumeration with these values to make it easier to manage in Studio Pro.  
+- Curve Type: Either 'bezier', 'step', 'smoothstep', or 'straight'.  Recommend creating an enumeration with these values to make it easier to manage in Studio Pro.  
+![demo_CurveTypes](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_CurveTypes.png)  
 
-### General Styling
-![generalStyling](https://github.com/bsgriggs/mendix-react-flow/blob/media/generalStyling.png)  
-**Container Size** - The React Flow library requires the container to have a pre-defined size. Set the width and height as a string of CSS distances.  
-**Zoom** - Either have the widget zoom to a specific scale on load or attempt to show the full render. The Navigation Zoom is the zoom after the user clicks on the node arrow buttons. *Note: if the focus override is set when the widget loads, the widget will use the focus zoom instead.*  
+_Note: the thickness of the lines and arrows can be customized with CSS on `.mendix-react-flow path.react-flow__edge-path`_
+
+### Customization
+![generalStyling](https://github.com/bsgriggs/mendix-react-flow/blob/media/customization.png)  
+**Container Size**  
+The React Flow library requires the container to have a predefined size. Set the width and height as a string of CSS distances.  
+
+**Zoom**  
+Either have the widget zoom to a specific scale on load or attempt to show the full render. The Navigation Zoom is the zoom after the user clicks on the node arrow buttons. *Note: if the focus override is set when the widget loads, the widget will use the focus zoom instead.*  
   
-Note: the default zoom is to the point (400, 0) which should make (0,0) in the center-top of the display.
+Note: the default zoom is to the point (400, 0), which _should_ make (0,0) in the center-top of the display.
+
+**Background**  
+Control what type of background, the gap, and how big each type is.  
 
 ### Events
 ![events](https://github.com/bsgriggs/mendix-react-flow/blob/media/events.png)  
-Optional events for when the user clicks a node or clicks an edge. The events will pass the exact object from either the Node or Edge data source.
+Optional events for when the user clicks a node or clicks an edge. The events will pass the exact object from either the Node or Edge data source.  
+
+The On Drag event will be expanded in the **future** to include the X and Y position of where the node ended up, so they can be set back to the Node entity. This is a new feature only available in [10.15+](https://docs.mendix.com/apidocs-mxsdk/apidocs/pluggable-widgets-property-types/#studio-pro-ui-10)
+
 
 ### Accessibility
 ![accessibility](https://github.com/bsgriggs/mendix-react-flow/blob/media/accessibility.png)  
+Aria labels for each node and edge. These are optional.
 
 ### Common
 ![common](https://github.com/bsgriggs/mendix-react-flow/blob/media/common.png)  
+General widget Name and Visibility settings. Tab Index is unused.
 
 ## Demo project
 https://widgettesting105-sandbox.mxapps.io/p/react-flow
 
-## Issues, suggestions and feature requests
+## Issues, suggestions, and feature requests
 https://github.com/bsgriggs/mendix-react-flow/issues 
 
 ## Development and contribution
