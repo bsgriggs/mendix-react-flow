@@ -34,7 +34,9 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                               strokeWidth: 2
                           },
                           data: {
-                              objItem: edgeObj
+                              objItem: edgeObj,
+                              sourceLabel: props.sourceLabel?.get(edgeObj).value,
+                              targetLabel: props.targetLabel?.get(edgeObj).value
                           },
                           label: props.edgeLabel?.get(edgeObj).value,
                           ariaLabel: props.edgeAriaLabel?.get(edgeObj).value,
@@ -53,7 +55,9 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             props.sourceLineSide,
             props.arrowType,
             props.curveType,
-            props.edgeAriaLabel
+            props.edgeAriaLabel,
+            props.sourceLabel,
+            props.targetLabel
         ]
     );
 
@@ -78,7 +82,6 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                           draggable: lockDragging ? false : props.allowDragging.get(nodeObj).value === true,
                           className: props.nodeClassName?.get(nodeObj).value,
                           data: {
-                              label: props.nodeLabel.get(nodeObj).value,
                               objItem: nodeObj,
                               children: props.nodeContent.get(nodeObj),
                               toolbarType: props.toolbarType,
@@ -102,7 +105,6 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             props.nodeContent,
             props.nodePosX,
             props.nodePosY,
-            props.nodeLabel,
             props.allowDragging,
             props.nodeWidth,
             props.nodeHeight,

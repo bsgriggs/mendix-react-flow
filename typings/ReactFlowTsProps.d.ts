@@ -23,7 +23,6 @@ export interface ReactFlowTsContainerProps {
     nodes: ListValue;
     selectedNode: SelectionSingleValue;
     nodeId: ListExpressionValue<string>;
-    nodeLabel: ListExpressionValue<string>;
     nodeContent: ListWidgetValue;
     nodePosX: ListExpressionValue<Big>;
     nodePosY: ListExpressionValue<Big>;
@@ -44,8 +43,10 @@ export interface ReactFlowTsContainerProps {
     edgeLabel?: ListExpressionValue<string>;
     nodeSourceId: ListExpressionValue<string>;
     sourceLineSide: ListExpressionValue<string>;
+    sourceLabel?: ListExpressionValue<string>;
     nodeTargetId: ListExpressionValue<string>;
     targetLineSide: ListExpressionValue<string>;
+    targetLabel?: ListExpressionValue<string>;
     edgeClassName?: ListExpressionValue<string>;
     arrowType: ListExpressionValue<string>;
     lineType: ListExpressionValue<string>;
@@ -81,7 +82,6 @@ export interface ReactFlowTsPreviewProps {
     nodes: {} | { caption: string } | { type: string } | null;
     selectedNode: "Single";
     nodeId: string;
-    nodeLabel: string;
     nodeContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     nodePosX: string;
     nodePosY: string;
@@ -102,8 +102,10 @@ export interface ReactFlowTsPreviewProps {
     edgeLabel: string;
     nodeSourceId: string;
     sourceLineSide: string;
+    sourceLabel: string;
     nodeTargetId: string;
     targetLineSide: string;
+    targetLabel: string;
     edgeClassName: string;
     arrowType: string;
     lineType: string;

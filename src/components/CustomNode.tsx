@@ -1,4 +1,4 @@
-import { Handle, Position, useEdges, useNodes, Node, useUpdateNodeInternals, NodeToolbar } from "@xyflow/react";
+import { Handle, Position, useEdges, useUpdateNodeInternals, NodeToolbar } from "@xyflow/react";
 import classNames from "classnames";
 import { ReactElement, createElement, memo, MouseEvent, useState, useEffect, Fragment } from "react";
 import NavButton from "./NavButton";
@@ -12,11 +12,16 @@ export interface CustomNodeProps {
     selected: boolean;
 }
 
+interface EdgeHandle {
+    nodeId: string;
+    label?: string;
+}
+
 interface IHandles {
-    top: Node[];
-    right: Node[];
-    bottom: Node[];
-    left: Node[];
+    top: EdgeHandle[];
+    right: EdgeHandle[];
+    bottom: EdgeHandle[];
+    left: EdgeHandle[];
 }
 
 const DEFAULT_HANDLES: IHandles = {
@@ -32,7 +37,6 @@ export default memo((props: CustomNodeProps): ReactElement => {
     const [sourceHandles, setSourceHandles] = useState<IHandles>(DEFAULT_HANDLES);
     const [targetHandles, setTargetHandles] = useState<IHandles>(DEFAULT_HANDLES);
     const edges = useEdges();
-    const nodes = useNodes();
     const updateNodeInternals = useUpdateNodeInternals();
 
     useEffect(() => {
@@ -40,17 +44,18 @@ export default memo((props: CustomNodeProps): ReactElement => {
         edges
             .filter(edge => edge.target === props.id)
             .forEach(edge => {
-                const sourceNode = nodes.find(node => node.id === edge.source);
-                if (sourceNode) {
-                    if (edge.targetHandle === "target-Top") {
-                        newSourceHandle.top.push(sourceNode);
-                    } else if (edge.targetHandle === "target-Right") {
-                        newSourceHandle.right.push(sourceNode);
-                    } else if (edge.targetHandle === "target-Bottom") {
-                        newSourceHandle.bottom.push(sourceNode);
-                    } else if (edge.targetHandle === "target-Left") {
-                        newSourceHandle.left.push(sourceNode);
-                    }
+                let newEdgeHandle: EdgeHandle = {
+                    label: `${edge.data?.sourceLabel}`,
+                    nodeId: edge.source
+                };
+                if (edge.targetHandle === "target-Top") {
+                    newSourceHandle.top.push(newEdgeHandle);
+                } else if (edge.targetHandle === "target-Right") {
+                    newSourceHandle.right.push(newEdgeHandle);
+                } else if (edge.targetHandle === "target-Bottom") {
+                    newSourceHandle.bottom.push(newEdgeHandle);
+                } else if (edge.targetHandle === "target-Left") {
+                    newSourceHandle.left.push(newEdgeHandle);
                 }
             });
         setSourceHandles(newSourceHandle);
@@ -59,22 +64,23 @@ export default memo((props: CustomNodeProps): ReactElement => {
         edges
             .filter(edge => edge.source === props.id)
             .forEach(edge => {
-                const targetNode = nodes.find(node => node.id === edge.target);
-                if (targetNode) {
-                    if (edge.sourceHandle === "source-Top") {
-                        newTargetHandle.top.push(targetNode);
-                    } else if (edge.sourceHandle === "source-Right") {
-                        newTargetHandle.right.push(targetNode);
-                    } else if (edge.sourceHandle === "source-Bottom") {
-                        newTargetHandle.bottom.push(targetNode);
-                    } else if (edge.sourceHandle === "source-Left") {
-                        newTargetHandle.left.push(targetNode);
-                    }
+                let newEdgeHandle: EdgeHandle = {
+                    label: `${edge.data?.targetLabel}`,
+                    nodeId: edge.target
+                };
+                if (edge.sourceHandle === "source-Top") {
+                    newTargetHandle.top.push(newEdgeHandle);
+                } else if (edge.sourceHandle === "source-Right") {
+                    newTargetHandle.right.push(newEdgeHandle);
+                } else if (edge.sourceHandle === "source-Bottom") {
+                    newTargetHandle.bottom.push(newEdgeHandle);
+                } else if (edge.sourceHandle === "source-Left") {
+                    newTargetHandle.left.push(newEdgeHandle);
                 }
             });
         setTargetHandles(newTargetHandle);
         updateNodeInternals(props.id);
-    }, [edges, nodes, props.id, updateNodeInternals]);
+    }, [edges, props.id, updateNodeInternals]);
 
     const handleClickNav = (event: MouseEvent<HTMLButtonElement>, nodeId: string): void => {
         event.stopPropagation(); // prevent clicking the button from selecting THIS node
@@ -147,10 +153,11 @@ export default memo((props: CustomNodeProps): ReactElement => {
                 <Fragment>
                     {targetHandles.top.length + sourceHandles.top.length > 0 && (
                         <NodeToolbar position={Position.Top} offset={NAV_BTN_OFFSET} className="nav-button-array">
-                            {targetHandles.top.concat(sourceHandles.top).map(node => (
+                            {targetHandles.top.concat(sourceHandles.top).map(edgeHandle => (
                                 <NavButton
-                                    key={node.id}
-                                    node={node}
+                                    key={edgeHandle.nodeId}
+                                    nodeId={edgeHandle.nodeId}
+                                    title={edgeHandle.label}
                                     iconClassName="mx-icon-chevron-up"
                                     onClick={handleClickNav}
                                 />
@@ -159,10 +166,11 @@ export default memo((props: CustomNodeProps): ReactElement => {
                     )}
                     {targetHandles.right.length + sourceHandles.right.length > 0 && (
                         <NodeToolbar position={Position.Right} offset={NAV_BTN_OFFSET} className="nav-button-array">
-                            {targetHandles.right.concat(sourceHandles.right).map(node => (
+                            {targetHandles.right.concat(sourceHandles.right).map(edgeHandle => (
                                 <NavButton
-                                    key={node.id}
-                                    node={node}
+                                    key={edgeHandle.nodeId}
+                                    nodeId={edgeHandle.nodeId}
+                                    title={edgeHandle.label}
                                     iconClassName="mx-icon-chevron-right"
                                     onClick={handleClickNav}
                                 />
@@ -171,10 +179,11 @@ export default memo((props: CustomNodeProps): ReactElement => {
                     )}
                     {targetHandles.bottom.length + sourceHandles.bottom.length > 0 && (
                         <NodeToolbar position={Position.Bottom} offset={NAV_BTN_OFFSET} className="nav-button-array">
-                            {targetHandles.bottom.concat(sourceHandles.bottom).map(node => (
+                            {targetHandles.bottom.concat(sourceHandles.bottom).map(edgeHandle => (
                                 <NavButton
-                                    key={node.id}
-                                    node={node}
+                                    key={edgeHandle.nodeId}
+                                    nodeId={edgeHandle.nodeId}
+                                    title={edgeHandle.label}
                                     iconClassName="mx-icon-chevron-down"
                                     onClick={handleClickNav}
                                 />
@@ -182,11 +191,12 @@ export default memo((props: CustomNodeProps): ReactElement => {
                         </NodeToolbar>
                     )}
                     {targetHandles.left.length + sourceHandles.left.length > 0 && (
-                        <NodeToolbar position={Position.Left} offset={NAV_BTN_OFFSET} className="nav-button-array left">
-                            {targetHandles.left.concat(sourceHandles.left).map(node => (
+                        <NodeToolbar position={Position.Left} offset={NAV_BTN_OFFSET} className="nav-button-array">
+                            {targetHandles.left.concat(sourceHandles.left).map(edgeHandle => (
                                 <NavButton
-                                    key={node.id}
-                                    node={node}
+                                    key={edgeHandle.nodeId}
+                                    nodeId={edgeHandle.nodeId}
+                                    title={edgeHandle.label}
                                     iconClassName="mx-icon-chevron-left"
                                     onClick={handleClickNav}
                                 />

@@ -28,11 +28,6 @@
                     <description>String that MUST be unique across ALL nodes.</description>
                     <returnType type="String" />
                 </property>
-                <property key="nodeLabel" type="expression" required="true" dataSource="nodes">
-                    <caption>Label</caption>
-                    <description>User friendly name of the node.</description>
-                    <returnType type="String" />
-                </property>
                 <property key="nodeContent" type="widgets" required="true" dataSource="nodes">
                     <caption>Node</caption>
                     <description></description>
@@ -143,11 +138,12 @@
                     <caption>Edges list</caption>
                     <description></description>
                 </property>
-                <property key="edgeLabel" type="expression" required="false" dataSource="edges">
+                <property key="edgeLabel" type="textTemplate" required="false" dataSource="edges">
                     <caption>Label</caption>
                     <description>(Optional) Displayed in the middle of the line.</description>
-                    <returnType type="String" />
                 </property>
+            </propertyGroup>
+            <propertyGroup caption="Source">
                 <property key="nodeSourceId" type="expression" required="true" dataSource="edges">
                     <caption>Source node id</caption>
                     <description>ID of the node to start the line from.</description>
@@ -159,6 +155,12 @@
                     <description>Must be one of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'.</description>
                     <returnType type="String" />
                 </property>
+                <property key="sourceLabel" type="textTemplate" required="false" dataSource="edges">
+                    <caption>Label</caption>
+                    <description>(Optional) Title of the navigation button.</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Target">
                 <property key="nodeTargetId" type="expression" required="true" dataSource="edges">
                     <caption>Target node id</caption>
                     <description>ID of the node to end the line at.</description>
@@ -169,6 +171,10 @@
                     <caption>Target line side</caption>
                     <description>Must be one of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'.</description>
                     <returnType type="String" />
+                </property>
+                <property key="targetLabel" type="textTemplate" required="false" dataSource="edges">
+                    <caption>Label</caption>
+                    <description>(Optional) Title of the navigation button.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Customization">
