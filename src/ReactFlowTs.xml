@@ -151,7 +151,7 @@
                 </property>
                 <property key="sourceLineSide" type="expression" required="true" dataSource="edges"
                     defaultValue="'Bottom'">
-                    <caption>Source line side</caption>
+                    <caption>Line side</caption>
                     <description>Must be one of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'.</description>
                     <returnType type="String" />
                 </property>
@@ -168,7 +168,7 @@
                 </property>
                 <property key="targetLineSide" type="expression" required="true" dataSource="edges"
                     defaultValue="'Top'">
-                    <caption>Target line side</caption>
+                    <caption>Line side</caption>
                     <description>Must be one of the exact strings: 'Top', 'Right', 'Left', or 'Bottom'.</description>
                     <returnType type="String" />
                 </property>
