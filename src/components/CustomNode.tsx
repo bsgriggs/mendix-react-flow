@@ -1,6 +1,6 @@
 import { Handle, Position, useEdges, useUpdateNodeInternals, NodeToolbar } from "@xyflow/react";
 import classNames from "classnames";
-import { ReactElement, createElement, memo, MouseEvent, useState, useEffect, Fragment } from "react";
+import { ReactElement, createElement, memo, useState, useEffect, Fragment } from "react";
 import NavButton from "./NavButton";
 
 export interface CustomNodeProps {
@@ -82,11 +82,6 @@ export default memo((props: CustomNodeProps): ReactElement => {
         updateNodeInternals(props.id);
     }, [edges, props.id, updateNodeInternals]);
 
-    const handleClickNav = (event: MouseEvent<HTMLButtonElement>, nodeId: string): void => {
-        event.stopPropagation(); // prevent clicking the button from selecting THIS node
-        (window as any).reactFlowFocus(nodeId);
-    };
-
     return (
         <div className={classNames("custom-node", { selected: props.selected }, { nodrag: !props.draggable })}>
             <Handle
@@ -159,7 +154,6 @@ export default memo((props: CustomNodeProps): ReactElement => {
                                     nodeId={edgeHandle.nodeId}
                                     title={edgeHandle.label}
                                     iconClassName="mx-icon-chevron-up"
-                                    onClick={handleClickNav}
                                 />
                             ))}
                         </NodeToolbar>
@@ -172,7 +166,6 @@ export default memo((props: CustomNodeProps): ReactElement => {
                                     nodeId={edgeHandle.nodeId}
                                     title={edgeHandle.label}
                                     iconClassName="mx-icon-chevron-right"
-                                    onClick={handleClickNav}
                                 />
                             ))}
                         </NodeToolbar>
@@ -185,7 +178,6 @@ export default memo((props: CustomNodeProps): ReactElement => {
                                     nodeId={edgeHandle.nodeId}
                                     title={edgeHandle.label}
                                     iconClassName="mx-icon-chevron-down"
-                                    onClick={handleClickNav}
                                 />
                             ))}
                         </NodeToolbar>
@@ -198,7 +190,6 @@ export default memo((props: CustomNodeProps): ReactElement => {
                                     nodeId={edgeHandle.nodeId}
                                     title={edgeHandle.label}
                                     iconClassName="mx-icon-chevron-left"
-                                    onClick={handleClickNav}
                                 />
                             ))}
                         </NodeToolbar>

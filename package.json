@@ -1,7 +1,7 @@
 {
     "name": "reactflowts",
     "widgetName": "ReactFlowTs",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Implimentation of the React Flow library for Mendix",
     "copyright": "@Benjamin Griggs 2025",
     "author": "Benjamin Griggs",
