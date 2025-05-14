@@ -63,7 +63,7 @@ The widget has the following properties panels.
 ![nodes](https://github.com/bsgriggs/mendix-react-flow/blob/media/nodes.png)  
 **Data**  
 The Nodes List can be any object. This object will be used to evaluate ALL the other expressions on this tab.  
-The Node ID MUST BE UNIQUE across all nodes. The Label should be a user-friendly description of the node. It is displayed as the title of the navigation buttons
+The Node ID MUST BE UNIQUE across all nodes.
 
 **Positions**  
 The recommendation is to have the Node objects store a simple coordinate system and then apply scaling in the widget. This makes it easier to manage the positions, and adjustments to the scale can be done all in one place. For example, the nodes could have positions (0,0) (0,1) (1,2) and scaling (400, 175), resulting in the final positions (0,0) (0, 175), and (400, 350).  
@@ -105,6 +105,11 @@ Data that defines which nodes connect to which other nodes and HOW they connect.
 The Source and Target IDs MUST match an existing Node's ID.  
 The 'Line Side' properties define where the line is drawn on each node. For example, below the Source 'Step 1' has Line Side 'Right' and Target 'Step 1b' has Line Side 'Left'.  
 ![demo_ArrowTypeLine](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_ArrowTypeLine.png)  
+
+The Source and Target Label properties define the tooltip of the navigation buttons.  
+![demo_NavButtons](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_NavButtons.png)  
+When a Node is focused, buttons appear that allow the user to navigate the nodes easily. The buttons are placed depending on the Edge's Line Side attributes. **The order of the buttons is in the order the objects were created in**.  
+When there is more than 1 navigation button, it would be difficult for the user to know WHICH node the button will navigate to. In the example above, the downwards-left edge would have Source Label 'Go to Step 2' and Target Label 'Go to Step 2a'.
 
 **Customization**  
 - Dynamic Class: set a CSS class relative to each edge. Useful for making an edge a certain color based on its data.
