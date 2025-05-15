@@ -14,6 +14,7 @@ export interface CustomNodeProps {
 
 interface EdgeHandle {
     nodeId: string;
+    showNavButtons: boolean;
     label?: string;
 }
 
@@ -41,11 +42,13 @@ export default memo((props: CustomNodeProps): ReactElement => {
 
     useEffect(() => {
         const newSourceHandle: IHandles = structuredClone(DEFAULT_HANDLES);
-        edges
-            .filter(edge => edge.target === props.id)
-            .forEach(edge => {
+        const newTargetHandle: IHandles = structuredClone(DEFAULT_HANDLES);
+        //removed .filter because forEach also needs to check source vs target; avoid extra loops
+        edges.forEach(edge => {
+            if (edge.target === props.id) {
                 let newEdgeHandle: EdgeHandle = {
                     label: `${edge.data?.sourceLabel}`,
+                    showNavButtons: edge.data?.showNavButtons === true,
                     nodeId: edge.source
                 };
                 if (edge.targetHandle === "target-Top") {
@@ -57,15 +60,10 @@ export default memo((props: CustomNodeProps): ReactElement => {
                 } else if (edge.targetHandle === "target-Left") {
                     newSourceHandle.left.push(newEdgeHandle);
                 }
-            });
-        setSourceHandles(newSourceHandle);
-
-        const newTargetHandle: IHandles = structuredClone(DEFAULT_HANDLES);
-        edges
-            .filter(edge => edge.source === props.id)
-            .forEach(edge => {
+            } else if (edge.source === props.id) {
                 let newEdgeHandle: EdgeHandle = {
                     label: `${edge.data?.targetLabel}`,
+                    showNavButtons: edge.data?.showNavButtons === true,
                     nodeId: edge.target
                 };
                 if (edge.sourceHandle === "source-Top") {
@@ -77,8 +75,11 @@ export default memo((props: CustomNodeProps): ReactElement => {
                 } else if (edge.sourceHandle === "source-Left") {
                     newTargetHandle.left.push(newEdgeHandle);
                 }
-            });
+            }
+        });
+        setSourceHandles(newSourceHandle);
         setTargetHandles(newTargetHandle);
+
         updateNodeInternals(props.id);
     }, [edges, props.id, updateNodeInternals]);
 
@@ -148,50 +149,62 @@ export default memo((props: CustomNodeProps): ReactElement => {
                 <Fragment>
                     {targetHandles.top.length + sourceHandles.top.length > 0 && (
                         <NodeToolbar position={Position.Top} offset={NAV_BTN_OFFSET} className="nav-button-array">
-                            {targetHandles.top.concat(sourceHandles.top).map(edgeHandle => (
-                                <NavButton
-                                    key={edgeHandle.nodeId}
-                                    nodeId={edgeHandle.nodeId}
-                                    title={edgeHandle.label}
-                                    iconClassName="mx-icon-chevron-up"
-                                />
-                            ))}
+                            {targetHandles.top
+                                .concat(sourceHandles.top)
+                                .filter(edgeHandle => edgeHandle.showNavButtons)
+                                .map(edgeHandle => (
+                                    <NavButton
+                                        key={edgeHandle.nodeId}
+                                        nodeId={edgeHandle.nodeId}
+                                        title={edgeHandle.label}
+                                        iconClassName="mx-icon-chevron-up"
+                                    />
+                                ))}
                         </NodeToolbar>
                     )}
                     {targetHandles.right.length + sourceHandles.right.length > 0 && (
                         <NodeToolbar position={Position.Right} offset={NAV_BTN_OFFSET} className="nav-button-array">
-                            {targetHandles.right.concat(sourceHandles.right).map(edgeHandle => (
-                                <NavButton
-                                    key={edgeHandle.nodeId}
-                                    nodeId={edgeHandle.nodeId}
-                                    title={edgeHandle.label}
-                                    iconClassName="mx-icon-chevron-right"
-                                />
-                            ))}
+                            {targetHandles.right
+                                .concat(sourceHandles.right)
+                                .filter(edgeHandle => edgeHandle.showNavButtons)
+                                .map(edgeHandle => (
+                                    <NavButton
+                                        key={edgeHandle.nodeId}
+                                        nodeId={edgeHandle.nodeId}
+                                        title={edgeHandle.label}
+                                        iconClassName="mx-icon-chevron-right"
+                                    />
+                                ))}
                         </NodeToolbar>
                     )}
                     {targetHandles.bottom.length + sourceHandles.bottom.length > 0 && (
                         <NodeToolbar position={Position.Bottom} offset={NAV_BTN_OFFSET} className="nav-button-array">
-                            {targetHandles.bottom.concat(sourceHandles.bottom).map(edgeHandle => (
-                                <NavButton
-                                    key={edgeHandle.nodeId}
-                                    nodeId={edgeHandle.nodeId}
-                                    title={edgeHandle.label}
-                                    iconClassName="mx-icon-chevron-down"
-                                />
-                            ))}
+                            {targetHandles.bottom
+                                .concat(sourceHandles.bottom)
+                                .filter(edgeHandle => edgeHandle.showNavButtons)
+                                .map(edgeHandle => (
+                                    <NavButton
+                                        key={edgeHandle.nodeId}
+                                        nodeId={edgeHandle.nodeId}
+                                        title={edgeHandle.label}
+                                        iconClassName="mx-icon-chevron-down"
+                                    />
+                                ))}
                         </NodeToolbar>
                     )}
                     {targetHandles.left.length + sourceHandles.left.length > 0 && (
                         <NodeToolbar position={Position.Left} offset={NAV_BTN_OFFSET} className="nav-button-array">
-                            {targetHandles.left.concat(sourceHandles.left).map(edgeHandle => (
-                                <NavButton
-                                    key={edgeHandle.nodeId}
-                                    nodeId={edgeHandle.nodeId}
-                                    title={edgeHandle.label}
-                                    iconClassName="mx-icon-chevron-left"
-                                />
-                            ))}
+                            {targetHandles.left
+                                .concat(sourceHandles.left)
+                                .filter(edgeHandle => edgeHandle.showNavButtons)
+                                .map(edgeHandle => (
+                                    <NavButton
+                                        key={edgeHandle.nodeId}
+                                        nodeId={edgeHandle.nodeId}
+                                        title={edgeHandle.label}
+                                        iconClassName="mx-icon-chevron-left"
+                                    />
+                                ))}
                         </NodeToolbar>
                     )}
                 </Fragment>

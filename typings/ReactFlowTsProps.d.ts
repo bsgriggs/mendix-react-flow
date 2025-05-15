@@ -51,6 +51,7 @@ export interface ReactFlowTsContainerProps {
     arrowType: ListExpressionValue<string>;
     lineType: ListExpressionValue<string>;
     curveType: ListExpressionValue<string>;
+    showNavButtons: ListExpressionValue<boolean>;
     containerWidth: DynamicValue<string>;
     containerHeight: DynamicValue<string>;
     loadingContent: ReactNode;
@@ -110,6 +111,7 @@ export interface ReactFlowTsPreviewProps {
     arrowType: string;
     lineType: string;
     curveType: string;
+    showNavButtons: string;
     containerWidth: string;
     containerHeight: string;
     loadingContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

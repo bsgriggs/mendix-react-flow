@@ -35,6 +35,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                           },
                           data: {
                               objItem: edgeObj,
+                              showNavButtons: props.showNavButtons.get(edgeObj).value === true,
                               sourceLabel: props.sourceLabel?.get(edgeObj).value,
                               targetLabel: props.targetLabel?.get(edgeObj).value
                           },
@@ -57,7 +58,8 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
             props.curveType,
             props.edgeAriaLabel,
             props.sourceLabel,
-            props.targetLabel
+            props.targetLabel,
+            props.showNavButtons
         ]
     );
 
@@ -84,6 +86,7 @@ export function ReactFlowTs(props: ReactFlowTsContainerProps): ReactElement {
                           data: {
                               objItem: nodeObj,
                               children: props.nodeContent.get(nodeObj),
+
                               toolbarType: props.toolbarType,
                               toolbarGap: props.toolbarType !== "OFF" ? props.toolbarGap.get(nodeObj).value : undefined,
                               toolbarPosition:
