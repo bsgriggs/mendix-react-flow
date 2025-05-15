@@ -122,7 +122,7 @@ When there is more than 1 navigation button, it would be difficult for the user 
 - Curve Type: Either 'bezier', 'step', 'smoothstep', or 'straight'.  Recommend creating an enumeration with these values to make it easier to manage in Studio Pro.  
 ![demo_CurveTypes](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_CurveTypes.png)
 _Note: the thickness of the lines and arrows can be customized with CSS on `.mendix-react-flow path.react-flow__edge-path`_  
-- Show nav buttons: boolean expression that controls if that edge will include navigation buttons. If the edge between 'Step 2' and 'Step 2a' has 'Show Nav Buttons' set to `false`, the downward-left button would no longer appear. To completely disable navigation buttons, the expression can be set to `false`.  
+- Show nav buttons: boolean expression that controls if each edge will include navigation buttons. In the image below, if the edge between 'Step 2' and 'Step 2a' has 'Show Nav Buttons' set to `false`, the downward-left button would no longer appear. To completely disable navigation buttons, the expression can be set to `false`.  
 ![demo_NavButtons](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_NavButtons.png)  
 
 ### Customization
