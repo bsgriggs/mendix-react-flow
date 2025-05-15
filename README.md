@@ -96,7 +96,7 @@ Note: It is an expression, not an attribute. It will NOT get updated with the cu
 **Customization**
 - Dynamic Class: set a CSS class relative to each node. Useful for making a node a certain color based on its data.
 - Focus Override: (Optional) the Node ID to focus. When the value changes, the widget will search for and focus on that node. This can be used to focus a node by default.
-- Allow dragging: a boolean expression that determines if each node is draggable.
+- Allow dragging: a boolean expression that determines if each node is draggable. To completely disable dragging, the expression can be set to `false`.  
 
 ### Edges
 ![edges](https://github.com/bsgriggs/mendix-react-flow/blob/media/edges.png)  
@@ -120,9 +120,10 @@ When there is more than 1 navigation button, it would be difficult for the user 
 | ![demo_ArrowTypeSolid](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_ArrowTypeSolid.png)  | ![demo_ArrowTypeLine](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_ArrowTypeLine.png)  |  
 - Line Type: Either 'Solid' or 'Dotted'. 'Dotted' animates the dots in the direction of the arrow. Recommend creating an enumeration with these values to make it easier to manage in Studio Pro.  
 - Curve Type: Either 'bezier', 'step', 'smoothstep', or 'straight'.  Recommend creating an enumeration with these values to make it easier to manage in Studio Pro.  
-![demo_CurveTypes](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_CurveTypes.png)  
-
-_Note: the thickness of the lines and arrows can be customized with CSS on `.mendix-react-flow path.react-flow__edge-path`_
+![demo_CurveTypes](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_CurveTypes.png)
+_Note: the thickness of the lines and arrows can be customized with CSS on `.mendix-react-flow path.react-flow__edge-path`_  
+- Show nav buttons: boolean expression that controls if that edge will include navigation buttons. If the edge between 'Step 2' and 'Step 2a' has 'Show Nav Buttons' set to `false`, the downward-left button would no longer appear. To completely disable navigation buttons, the expression can be set to `false`.  
+![demo_NavButtons](https://github.com/bsgriggs/mendix-react-flow/blob/media/demo_NavButtons.png)  
 
 ### Customization
 ![generalStyling](https://github.com/bsgriggs/mendix-react-flow/blob/media/customization.png)  
